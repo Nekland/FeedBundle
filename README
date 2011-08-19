@@ -1,0 +1,11 @@
+Under developpement.
+
+Do not use this bundle at this moment.
+
+----------------------------------
+FeedBundle
+
+Features:
+ - can make atom and rss 2.0 feeds
+ - support multiple feeds
+ - support multiple encoding

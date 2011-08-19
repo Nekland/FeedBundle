@@ -3,6 +3,7 @@
 namespace Nekland\FeedBundle;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Nekland\FeedBundle\Render\RenderInterface;
 
 class RssFeed {
     protected $router;
@@ -20,10 +21,19 @@ class RssFeed {
      * @var string $filename
      */
     protected $filename;
+    
+    protected $type;
+    
+    protected $items;
+    
+    protected $new;
 
-    public function __construct(Router $router, array $config) {
+    public function __construct(Router $router, array $config, $type='rss') {
         $this->router = $router;
         $this->config = $config;
+        if(!in_array(($this->type = $type), array('rss', 'atom'))) {
+            throw new \InvalidArgumentException('The type of the feed must be rss or atom');
+        }
         
         $rc = new \ReflectionClass($this->config['class']);
         if ($this->rc->hasMethod('getFilename')) {
@@ -35,20 +45,24 @@ class RssFeed {
             $name = $e[count($e) - 1];
         }
         $this->new = file_exists($this->filename = __DIR__ . '/../Resources/public/rss/' . $name . 'Rss.xml') ? false : true;
+        $this->items = array();
     }
     
     public function add($item){
         $rc = new \ReflectionClass($this->config['class']);
-        if(!$rc->isInstance($item))
-            throw new \InvalidArgumentException();
-        
-        $rc = new \ReflectionClass($item);
-        if ($this->rc->hasMethod('getFilename')) {
-            $name = $item->getFilename();
-        } else {
-            $e = explode('\\', get_class($item));
-            $name = $e[count($e) - 1];
+        if(!$rc->isInstance($item)) {
+            throw new \InvalidArgumentException('The class given MUST be an instance of "'.$this->config['class'].'".');
         }
-        $this->new = file_exists($this->filename = __DIR__ . '/../Resources/public/rss/' . $name . 'Rss.xml') ? false : true;
+        
+        $this->items[] = $item;
+    }
+    
+    public function render(RenderInterface $render) {
+        if(count($this->items) < 1){
+            throw new \Exception('There are no items registered.');
+        }
+        $render->setConfig($this->config);
+        $render->setItems($this->items);
+        $render->setRouter($this->router);
     }
 }

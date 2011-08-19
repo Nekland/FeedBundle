@@ -20,4 +20,8 @@ interface RssItem {
      *
      */
     public function getRssLink();
+    
+    /*
+     * What else you can implement ?
+     */
 }

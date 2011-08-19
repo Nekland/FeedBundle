@@ -2,8 +2,6 @@
 
 namespace Nekland\FeedBundle;
 
-use RssFeed;
-use AtomFeed;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 
@@ -36,10 +34,8 @@ class RssFactory {
         
         if(!isset($this->feeds[$feed])) {
             $feed_configuration = $config[$feed];
-            if(strtolower($feed_configuration['type']) === 'atom')
-                $this->feeds[$feed] = new AtomFeed($this->router, $feed_configuration);
-            else
-                $this->feeds[$feed] = new RssFeed($this->router, $feed_configuration);
+            
+            $this->feeds[$feed] = new Feed($this->router, $feed_configuration, $feed_configuration['type']);
         }
         
         return $this->feeds[$feed];

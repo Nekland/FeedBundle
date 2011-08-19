@@ -25,7 +25,16 @@ class RssFeed {
         $this->router = $router;
         $this->config = $config;
         
+        $rc = new \ReflectionClass($this->config['class']);
+        if ($this->rc->hasMethod('getFilename')) {
         
+            $name = $item->getFilename();
+        } else {
+        
+            $e = explode('\\', get_class($item));
+            $name = $e[count($e) - 1];
+        }
+        $this->new = file_exists($this->filename = __DIR__ . '/../Resources/public/rss/' . $name . 'Rss.xml') ? false : true;
     }
     
     public function add($item){

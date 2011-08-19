@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('description')->isRequired()->end()
                             ->scalarNode('route')->isRequired()->end()
                             ->scalarNode('language')->isRequired()->end()
+                            ->scalarNode('max_items')->defaultValue(10)->end()
                         ->end()
                     ->end()
                 ->end()

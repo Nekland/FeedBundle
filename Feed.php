@@ -4,7 +4,8 @@ namespace Nekland\FeedBundle;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
-class RssFeed {
+class Feed
+{
     protected $router;
     
     /**

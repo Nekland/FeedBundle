@@ -16,17 +16,17 @@ Features
 Configuration
 -------------
 
-nekland_feed:
-    feeds:
-        my_feed:
-            class:        My\MyBundle\Entity\Post
-            title:       'My fabulous posts'
-            description: 'Here is my very fabulous posts'
-            route:       'my_posts'
-            language:    'fr'
-        my_feed2:
-            class:        My\MyBundle\Entity\Comment
-            title:       'My fabulous comments'
-            description: 'Here is my very fabulous comments'
-            route:       'my_posts_comments'
-            language:    'fr'
+    nekland_feed:
+        feeds:
+            my_feed:
+                class:        My\MyBundle\Entity\Post
+                title:       'My fabulous posts'
+                description: 'Here is my very fabulous posts'
+                route:       'my_posts'
+                language:    'fr'
+            my_feed2:
+                class:        My\MyBundle\Entity\Comment
+                title:       'My fabulous comments'
+                description: 'Here is my very fabulous comments'
+                route:       'my_posts_comments'
+                language:    'fr'

@@ -8,21 +8,34 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * Generates the configuration tree builder.
+     *
+     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
      */
-    public function getConfigTreeBuilder()
+    function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('nekland_fil')
-                ->children()
-                    ->arrayNode('steps')->end()
-                ->end();
+        $rootNode = $treeBuilder->root('nekland_feed');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-        
+        $rootNode
+            ->children()
+                ->arrayNode('feeds')
+                    ->requiresAtLeastOneElement()
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('class')->isRequired()->end()
+                            ->scalarNode('title')->isRequired()->end()
+                            ->scalarNode('description')->isRequired()->end()
+                            ->scalarNode('route')->isRequired()->end()
+                            ->scalarNode('language')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }
+
 }

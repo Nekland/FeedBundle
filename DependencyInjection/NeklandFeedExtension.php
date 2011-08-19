@@ -17,6 +17,8 @@ class NeklandFeedExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        $container->setParameter('nekland_feed.factory.config', $config);
     }
     
 }

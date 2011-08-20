@@ -5,6 +5,8 @@ Under developpement.
 
 Do not use this bundle at this moment.
 
+Big changements are coming.
+
 ----------------------------------
 
 Features
@@ -12,6 +14,8 @@ Features
 
  * can make atom and rss 2.0 feeds
  * support multiple feeds
+ * support edit of feeds
+ * extendable
 
 Configuration
 -------------
@@ -30,3 +34,8 @@ Configuration
                 description: 'Here is my very fabulous comments'
                 route:       'my_posts_comments'
                 language:    'fr'
+
+Thank you to
+-------------
+
+ * yohang who work and help on this project

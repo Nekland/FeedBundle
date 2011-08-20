@@ -20,6 +20,10 @@ class RssRender implements RenderInterface {
         
     }
     
+    /**
+     * @throw \InvalidArgumentException
+     * @return void
+     */
     public function save() {
         // First test if we need to upgrade or create the rss file
         if(isset($config['filename'])) {
@@ -138,13 +142,23 @@ class RssRender implements RenderInterface {
         $rc = \ReflectionClass($this->config['class']);
         
         for($i=0; $i < $ci; $i++){
+            if( ( $itemNode = $this->exists($this->items[$i])) === false) {
+                
+                $this->writeItem($this->xmlManager->getXml()->createElement('item'), $this->items[$i]);
+            } else {
+                
+                $this->updateItem($itemNode, $this->items[$i]);
+            }
             
-            $item = $this->xmlManager->getXml()->createElement('item');
+        }
+    }
+    
+    private function writeItem(\DOMNode $nodeItem, RssItemInterface $item) {
             
-            $this->xmlManager->addTextNode('title', $this->items[$i]->getRssTitle(), $item);
-            $this->xmlManager->addTextNode('description', $this->items[$i]->getRssDescription(), $item);
+            $this->xmlManager->addTextNode('title', $item->getRssTitle(), $item);
+            $this->xmlManager->addTextNode('description', $item->getRssDescription(), $item);
             
-            $route = $this->items[$i]->getRssRoute();
+            $route = $item->getRssRoute();
             if(is_array($route)) {
             
                 $this->xmlManager->addTextNode('description', $this->router->generate($route[0], $route[1]), $item);
@@ -155,15 +169,15 @@ class RssRender implements RenderInterface {
             $this->xmlManager->addTextNode('pubDate', date('D, j M Y H:i:s e'), $item);
             
             if($rc->hasMethod('getRssAuthor')) {
-                $this->xmlManager->addTextNode('author', $this->items[$i]->getRssAuthor(), $item);
+                $this->xmlManager->addTextNode('author', $item->getRssAuthor(), $item);
             }
             
             if($rc->hasMethod('getRssCategory')) {
-                $this->xmlManager->addTextNode('category', $this->items[$i]->getRssCategory(), $item);
+                $this->xmlManager->addTextNode('category', $item->getRssCategory(), $item);
             }
             
             if($rc->hasMethod('getRssCommentRoute')) {
-                $commentRoute = $this->items[$i]->getRssCommentRoute();
+                $commentRoute = $item->getRssCommentRoute();
                 if(is_array($commentRoute)) {
                 
                     $this->xmlManager->addTextNode('comment', $this->router->generate($commentRoute[0], $commentRoute[1]), $item);
@@ -173,7 +187,7 @@ class RssRender implements RenderInterface {
                 }
             }
             if($rc->hasMethod('getRssEnclosure')) {
-                $enc = $this->items[$i]->getRssEnclosure();
+                $enc = $item->getRssEnclosure();
                 if(!is_array($enc)) {
                     throw new \InvalidArgumentException('"getRssEnclosure" must return an array with properties.');
                 }
@@ -186,10 +200,41 @@ class RssRender implements RenderInterface {
                 $item->appendChild($enclosure);
             }
             
-            if($rc->hasMethod('getRssGuid')) {
-                $this->xmlManager->addTextNode('guid', $this->items[$i]->getRssGuid(), $item);
+            if($rc->hasMethod('getRssId')) {
+                $this->xmlManager->addTextNode('guid', $item->getRssGuid(), $item);
             }
-            
+    }
+    
+    private function updateItem(\DOMNode $nodeItem, RssItemInterface $item) {
+        $l = $nodeItem->childNodes->length;
+        for($i=0; $i < $l; $i++) {
+            $nodeItem->removeChild($nodeItem->childNodes->item(0));
         }
+        
+        $this->writeItem($nodeItem, $item);
+        
+    }
+    
+    /**
+     * Check if the item exists in the file
+     */
+    private function exists($item) {
+        $l = $this->xmlManager->getXml()->getElementsByTagName('guid')->length;
+        $itemNode = null;
+        
+        for($i = 0; $i < $l || $id !== null; $i++) {
+            $guidNode = $this->xmlManager->getXml()->getElementsByTagName('guid')->item($i);
+            $id = $guidNode->childNodes->item(0)->wholeText;
+            if($id == $item->getId()){
+                $itemNode = $guidNode->parentNode;
+            }
+        }
+        
+        if($id === null) {
+            return false;
+        } else {
+            return $itemNode;
+        }
+        
     }
 }

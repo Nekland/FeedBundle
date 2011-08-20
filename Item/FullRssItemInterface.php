@@ -25,9 +25,4 @@ interface FullRssItemInterface extends RssItemInterface {
      */
     public function getRssEnclosure();
     
-    /**
-     * Unique identifiant
-     * @return string
-     */
-    public function getRssGuid();
 }

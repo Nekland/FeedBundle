@@ -21,6 +21,11 @@ interface RssItem {
      */
     public function getRssRoute();
     
+    /**
+     * @return unique identifiant (for editing)
+     */
+    public function getRssId();
+    
     /*
      * What else you can implement ?
      * Check the FullRssItemInterface.

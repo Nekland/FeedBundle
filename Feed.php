@@ -5,8 +5,7 @@ namespace Nekland\FeedBundle;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Nekland\FeedBundle\Render\RenderInterface;
 
-class Feed
-{
+class RssFeed {
     protected $router;
     
     /**

@@ -12,7 +12,6 @@ use Nekland\FeedBundle\XML\XMLManager;
 
 class RssRender implements RenderInterface {
     protected $xmlManager;
-    protected $rss;
     protected $config;
     protected $items;
     protected $router;
@@ -33,23 +32,16 @@ class RssRender implements RenderInterface {
         $filename = __DIR__ . '/../Resources/public/rss/' . $filename . 'Rss.xml';
         $this->xmlManager = new XMLManager($filename);
         
-        /*
-        if($this->new = !file_exists($this->filename)) {
         
-            $this->rss = new DomDocument('1.0', 'utf-8');
-        } else {
-        
-            $this->rss = new DomDocument();
-            $this->rss->load($this->filename);
-        }
-        //*/
         if($isNew) {
             $this->init();
         } else {
             $this->update();
         }
         
-        $this->upgradeFeeds();
+        $this->writeItems();
+        
+        $this->xmlManager->save();
     }
     
     public function setConfig(array $config) {
@@ -130,9 +122,73 @@ class RssRender implements RenderInterface {
         $lastBuild->appendChild($text);
         
     // Deleting items if we have too much items
-        $nbDel = count($this->items) - $this->config[''];
+        $l = $this->xmlManager->getXml()->getElementsByTagName('item')->length;
+        $nbDel = count($this->items) + $l - $this->config['max_items'];
         
-        for($i = 0; $i < $nbDel; $i++) {
+        if($nbDel > 0) {
+            for($i = 0; $i < $nbDel; $i++) {
+                $this->xmlManager->getXml()->getElementsByTagName('channel')->item(0)
+                    ->removeChild($this->xmlManager->getXml()->getElementsByTagName('item')->item($l - 1));
+            }
+        }
+    }
+    
+    private function writeItems() {
+        $ci = count($this->items);
+        $rc = \ReflectionClass($this->config['class']);
+        
+        for($i=0; $i < $ci; $i++){
+            
+            $item = $this->xmlManager->getXml()->createElement('item');
+            
+            $this->xmlManager->addTextNode('title', $this->items[$i]->getRssTitle(), $item);
+            $this->xmlManager->addTextNode('description', $this->items[$i]->getRssDescription(), $item);
+            
+            $route = $this->items[$i]->getRssRoute();
+            if(is_array($route)) {
+            
+                $this->xmlManager->addTextNode('description', $this->router->generate($route[0], $route[1]), $item);
+            } else {
+                
+                $this->xmlManager->addTextNode('description', $this->router->generate($route), $item);
+            }
+            $this->xmlManager->addTextNode('pubDate', date('D, j M Y H:i:s e'), $item);
+            
+            if($rc->hasMethod('getRssAuthor')) {
+                $this->xmlManager->addTextNode('author', $this->items[$i]->getRssAuthor(), $item);
+            }
+            
+            if($rc->hasMethod('getRssCategory')) {
+                $this->xmlManager->addTextNode('category', $this->items[$i]->getRssCategory(), $item);
+            }
+            
+            if($rc->hasMethod('getRssCommentRoute')) {
+                $commentRoute = $this->items[$i]->getRssCommentRoute();
+                if(is_array($commentRoute)) {
+                
+                    $this->xmlManager->addTextNode('comment', $this->router->generate($commentRoute[0], $commentRoute[1]), $item);
+                } else {
+                
+                    $this->xmlManager->addTextNode('comment', $this->router->generate($commentRoute), $item);
+                }
+            }
+            if($rc->hasMethod('getRssEnclosure')) {
+                $enc = $this->items[$i]->getRssEnclosure();
+                if(!is_array($enc)) {
+                    throw new \InvalidArgumentException('"getRssEnclosure" must return an array with properties.');
+                }
+                $enclosure = $this->xmlManager->getXml()->createElement('enclosure');
+                foreach($enc as $key => $value) {
+                
+                    $enclosure->setAttribute($key, $value);
+                }
+                
+                $item->appendChild($enclosure);
+            }
+            
+            if($rc->hasMethod('getRssGuid')) {
+                $this->xmlManager->addTextNode('guid', $this->items[$i]->getRssGuid(), $item);
+            }
             
         }
     }

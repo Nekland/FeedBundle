@@ -41,4 +41,8 @@ class XMLManager {
     public function isNew() {
         return $this->new;
     }
+    
+    public function save() {
+        return $this->xml->save($filename);
+    }
 }

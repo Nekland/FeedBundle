@@ -2,7 +2,7 @@
 
 namespace Nekland\FeedBundle\Item;
 
-interface RssItem {
+interface RssItemInterface {
     /**
      * Return the title of your rss, something like "My blog rss"
      * @return string

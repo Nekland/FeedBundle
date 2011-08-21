@@ -55,6 +55,8 @@ class Feed {
         }
         
         $this->items[] = $item;
+        
+        return $this;
     }
     
     public function render(RenderInterface $render) {
@@ -64,5 +66,7 @@ class Feed {
         $render->setConfig($this->config);
         $render->setItems($this->items);
         $render->setRouter($this->router);
+        
+        return $this;
     }
 }

@@ -27,7 +27,7 @@ class FeedFactory
     public function __construct(Router $router, array $config)
     {
         $this->router = $router;
-        $this->config = $config;
+        $this->config = $config['feeds'];
     }
 
     public function setConfig(array $config)
@@ -41,7 +41,7 @@ class FeedFactory
      */
     public function has($feed)
     {
-        return isset($config[$feed]);
+        return isset($this->config[$feed]);
     }
 
     /**
@@ -56,7 +56,7 @@ class FeedFactory
         }
         
         if(!isset($this->feeds[$feed])) {
-            $this->feeds[$feed] = new Feed($this->router, $this->config['feeds'][$feed]);
+            $this->feeds[$feed] = new Feed($this->router, $this->config[$feed]);
         }
         
         return $this->feeds[$feed];

@@ -35,16 +35,16 @@ class Feed {
             throw new \InvalidArgumentException('The type of the feed must be rss or atom');
         }
         
-        $rc = new \ReflectionClass($this->config['class']);
-        if ($this->rc->hasMethod('getFilename')) {
-        
-            $name = $item->getFilename();
-        } else {
-        
-            $e = explode('\\', get_class($item));
-            $name = $e[count($e) - 1];
-        }
-        $this->new = file_exists($this->filename = __DIR__ . '/../Resources/public/rss/' . $name . 'Rss.xml') ? false : true;
+//        $rc = new \ReflectionClass($this->config['class']);
+//        if ($rc->hasMethod('getFilename')) {
+//        
+//            $name = $item->getFilename();
+//        } else {
+//        
+//            $e = explode('\\', get_class($item));
+//            $name = $e[count($e) - 1];
+//        }
+//        $this->new = file_exists($this->filename = __DIR__ . '/../Resources/public/rss/' . $name . 'Rss.xml') ? false : true;
         $this->items = array();
     }
     
@@ -66,6 +66,8 @@ class Feed {
         $render->setConfig($this->config);
         $render->setItems($this->items);
         $render->setRouter($this->router);
+        
+        $render->save();
         
         return $this;
     }

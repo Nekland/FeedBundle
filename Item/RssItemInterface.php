@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\RssBundle\Item;
+namespace Nekland\FeedBundle\Item;
 
 interface RssItem {
     /**

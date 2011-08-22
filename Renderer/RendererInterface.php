@@ -7,7 +7,7 @@ use Nekland\FeedBundle\Feed;
 /**
  * Base of feed renderer
  */
-interface RenderInterface
+interface RendererInterface
 {
     /**
      * @abstract
@@ -15,5 +15,5 @@ interface RenderInterface
      * @param $filename
      * @return void
      */
-    public function render(Feed $feed, $filename);
+    public function render(Feed $feed);
 }

@@ -100,6 +100,11 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         return $this;
     }
 
+    public function getFilename($format)
+    {
+        return strtr($this->config['filename'], array('%format%' => $format));
+    }
+
     /**
      * Retrieve an external iterator
      * @return Iterator

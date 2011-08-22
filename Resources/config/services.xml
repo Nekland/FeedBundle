@@ -6,12 +6,20 @@
 
     <parameters>
         <parameter key="nekland_feed.factory.class">Nekland\FeedBundle\Factory\FeedFactory</parameter>
+        <parameter key="nekland_feed.renderer.rss.class">Nekland\FeedBundle\Renderer\RssRenderer</parameter>
+        <parameter key="nekland_feed.renderer.rss.base_path">%kernel.root_dir%/../web/feeds/</parameter>
     </parameters>
 
     <services>
         <service id="nekland_feed.factory" class="%nekland_feed.factory.class%">
-            <argument type="service" id="router" />
             <argument>%nekland_feed.factory.config%</argument>
+            <call method="setContainer">
+              <argument type="service" id="service_container" />
+          </call>
+        </service>
+        <service id="nekland_feed.renderer.rss" class="%nekland_feed.renderer.rss.class%">
+            <argument type="service" id="router" />
+            <argument>%nekland_feed.renderer.rss.base_path%</argument>
         </service>
     </services>
 

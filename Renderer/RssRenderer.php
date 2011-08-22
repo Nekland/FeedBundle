@@ -2,29 +2,32 @@
 
 namespace Nekland\FeedBundle\Renderer;
 
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+
 use Nekland\FeedBundle\XML\XMLManager;
-//use Nekland\FeedBundle\XML\DomDocumentExtension as DomDocument;
+use Nekland\FeedBundle\Feed;
 
 /**
  * This class render an xml file
  * Using format RSS 2.0
  */
 
-class RssRenderer implements RenderInterface
+class RssRenderer implements RendererInterface
 {
     protected $xmlManager;
-    protected $config;
     protected $items;
     protected $router;
+    protected $basePath;
 
-    public function setItems(array $items)
+    public function __construct(Router $router, $basePath)
     {
-        $this->items = $items;
+        $this->router = $router;
+        $this->basePath = $basePath;
     }
 
-    public function setRouter(Symfony\Bundle\FrameworkBundle\Routing\Router $r)
+    public function render(Feed $feed)
     {
-        $this->router = $r;
+        
     }
 
     private function init()

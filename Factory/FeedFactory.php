@@ -2,8 +2,10 @@
 
 namespace Nekland\FeedBundle\Factory;
 
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 use Nekland\FeedBundle\Feed;
+use Nekland\FeedBundle\Renderer\RendererInterface;
 
 /**
  * This class represent an agnostic feed, Atom, Rss, etc..
@@ -11,9 +13,8 @@ use Nekland\FeedBundle\Feed;
  * @throws \InvalidArgumentException
  * @author Yohan Giarelli <yohan@giarelli.org>
  */
-class FeedFactory
+class FeedFactory extends ContainerAware
 {
-
     /**
      * Will contains all feeds.
      * @var array|Feed
@@ -25,20 +26,14 @@ class FeedFactory
      */
     protected $config;
 
-    /**
-     * @var Router
-     */
-    protected $router;
-    
-    public function __construct(Router $router, array $config)
+    public function __construct(array $config)
     {
-        $this->router = $router;
-        $this->config = $config['feeds'];
+        $this->config = $config;
     }
 
     public function setConfig(array $config)
     {
-        $this->config = $config['feeds'];
+        $this->config = $config;
     }
 
     /**
@@ -47,7 +42,14 @@ class FeedFactory
      */
     public function has($feed)
     {
-        return isset($this->config[$feed]);
+        return isset($this->config['feeds'][$feed]);
+    }
+
+    public function render($feed, $renderer)
+    {
+        $renderer = $this->getRenderer($renderer);
+
+        return $renderer->render($this->get($feed));
     }
 
     /**
@@ -62,9 +64,24 @@ class FeedFactory
         }
         
         if(!isset($this->feeds[$feed])) {
-            $this->feeds[$feed] = new Feed($this->config[$feed]);
+            $this->feeds[$feed] = new Feed($this->config['feeds'][$feed]);
         }
         
         return $this->feeds[$feed];
     }
+
+    /**
+     * @param $name
+     * @return RendererInterface
+     */
+    protected function getRenderer($name)
+    {
+        if (isset($this->config['renderers'][$name])) {
+            return $this->container->get($this->config['renderers'][$name]['id']);
+        }
+
+        throw new \InvalidArgumentException('Renderer '.$name.' doesn\'t exists');
+    }
+
+
 }

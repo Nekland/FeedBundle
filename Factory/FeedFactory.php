@@ -3,6 +3,7 @@
 namespace Nekland\FeedBundle\Factory;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Nekland\FeedBundle\Feed;
 
 class FeedFactory
@@ -24,10 +25,17 @@ class FeedFactory
      */
     protected $router;
     
-    public function __construct(Router $router, array $config)
+    /**
+     * Host of the site, needed for writing routes.
+     * @var string 
+     */
+    protected $host;
+    
+    public function __construct(ContainerInterface $container, Router $router, array $config)
     {
         $this->router = $router;
         $this->config = $config['feeds'];
+        $this->host = $container->get('request')->getHost();
     }
 
     public function setConfig(array $config)
@@ -56,7 +64,7 @@ class FeedFactory
         }
         
         if(!isset($this->feeds[$feed])) {
-            $this->feeds[$feed] = new Feed($this->router, $this->config[$feed]);
+            $this->feeds[$feed] = new Feed($this->router, $this->config[$feed], $this->host);
         }
         
         return $this->feeds[$feed];

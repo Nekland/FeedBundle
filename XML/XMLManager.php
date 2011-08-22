@@ -15,7 +15,7 @@ class XMLManager {
             $this->xml = new \DomDocument('1.0', 'utf-8');
         } else {
         
-            $this->xml = new DomDocument();
+            $this->xml = new \DomDocument();
             $this->xml->load($this->filename);
         }
     }
@@ -43,6 +43,6 @@ class XMLManager {
     }
     
     public function save() {
-        return $this->xml->save($filename);
+        return $this->xml->save($this->filename);
     }
 }

@@ -38,4 +38,4 @@ Configuration
 Thank you to
 -------------
 
- * yohang who work and help on this project
+ * yohang who work and help (a lot) on this project

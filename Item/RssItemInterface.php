@@ -2,7 +2,7 @@
 
 namespace Nekland\FeedBundle\Item;
 
-interface RssItemInterface {
+interface RssItemInterface extends ItemInterface {
     /*
      * Return the title of your rss, something like "My blog rss"
      * @return string
@@ -21,10 +21,7 @@ interface RssItemInterface {
      */
     public function getRssRoute();
     
-    /*
-     * @return unique identifiant (for editing)
-     */
-    public function getRssId();
+
     
     /*
      * What else you can implement ?

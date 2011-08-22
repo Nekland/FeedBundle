@@ -9,10 +9,6 @@ use Nekland\FeedBundle\Item\ItemInterface;
 
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-    /**
-     * @var Router
-     */
-    protected $router;
 
     /**
      * Config example:
@@ -29,9 +25,8 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected $items;
 
-    public function __construct(Router $router, array $config)
+    public function __construct(array $config)
     {
-        $this->router = $router;
         $this->config = $config;
         $this->items = array();
     }

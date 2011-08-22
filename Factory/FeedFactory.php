@@ -62,7 +62,7 @@ class FeedFactory
         }
         
         if(!isset($this->feeds[$feed])) {
-            $this->feeds[$feed] = new Feed($this->router, $this->config[$feed]);
+            $this->feeds[$feed] = new Feed($this->config[$feed]);
         }
         
         return $this->feeds[$feed];

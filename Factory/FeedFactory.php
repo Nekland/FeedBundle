@@ -26,7 +26,7 @@ class FeedFactory
     protected $config;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
+     * @var Router
      */
     protected $router;
     

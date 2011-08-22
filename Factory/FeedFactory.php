@@ -32,7 +32,7 @@ class FeedFactory
 
     public function setConfig(array $config)
     {
-        $this->config = $config;
+        $this->config = $config['feeds'];
     }
 
     /**

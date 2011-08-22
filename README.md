@@ -35,6 +35,11 @@ Configuration
                 route:       'my_posts_comments'
                 language:    'fr'
 
+Tests
+-----
+
+NeklandFeedBundle is bundled with some behat flavoured tests. Install BehatBundle and launch it with app/console -e=test behat @NeklandFeedBundle
+
 Thank you to
 -------------
 

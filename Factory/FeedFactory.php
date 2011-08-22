@@ -5,6 +5,12 @@ namespace Nekland\FeedBundle\Factory;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Nekland\FeedBundle\Feed;
 
+/**
+ * This class represent an agnostic feed, Atom, Rss, etc..
+ *
+ * @throws \InvalidArgumentException
+ * @author Yohan Giarelli <yohan@giarelli.org>
+ */
 class FeedFactory
 {
 

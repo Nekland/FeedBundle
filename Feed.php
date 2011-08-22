@@ -4,7 +4,7 @@ namespace Nekland\FeedBundle;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
-use Nekland\FeedBundle\Render\RenderInterface;
+use Nekland\FeedBundle\Renderer\RenderInterface;
 use Nekland\FeedBundle\Item\ItemInterface;
 
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate

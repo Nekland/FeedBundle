@@ -117,6 +117,17 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         return isset($this->config[$param]) ? $this->config[$param] : $default;
     }
 
+    public function merge(Feed $feed)
+    {
+        $this->items = array();
+
+        foreach ($feed as $item) {
+            $this->add($item);
+        }
+
+        return $this;
+    }
+
     /**
      * Retrieve an external iterator
      * @return Iterator

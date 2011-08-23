@@ -23,7 +23,6 @@
             <argument>%nekland_feed.rss.base_path%</argument>
         </service>
         <service id="nekland_feed.loader.rss_file" class="%nekland_feed.loader.rss_file.class%">
-            <argument type="service" id="router" />
             <argument>%nekland_feed.rss.base_path%</argument>
         </service>
     </services>

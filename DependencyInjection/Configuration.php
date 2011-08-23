@@ -53,7 +53,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('loaders')
                     ->defaultValue(array(
-                        'rss' => array(
+                        'rss_file' => array(
                             'id' => 'nekland_feed.loader.rss_file'
                         )
                     ))

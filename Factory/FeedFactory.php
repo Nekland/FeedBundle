@@ -74,7 +74,7 @@ class FeedFactory extends ContainerAware
         $feed = $this->get($feedName);
         $loadedFeed = $loader->load($feed->getFilename($loader->getFormat()));
 
-        return $feed->merge($loadedFeed);
+        return $this->feeds[$feedName] = $feed->merge($loadedFeed);
     }
 
     /**

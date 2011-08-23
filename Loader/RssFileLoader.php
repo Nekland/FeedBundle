@@ -11,7 +11,12 @@ class RssFileLoader extends RssLoader implements FileLoaderInterface
         $this->basePath = $basePath;
     }
 
-    protected function getContent($filename)
+    public function load($filename)
+    {
+        return parent::load($this->getContent($filename));
+    }
+
+    public function getContent($filename)
     {
         return file_get_contents(sprintf('%s/%s', $this->basePath, $filename));
     }

@@ -4,8 +4,8 @@ namespace Nekland\FeedBundle;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
-use Nekland\FeedBundle\Renderer\RenderInterface;
 use Nekland\FeedBundle\Item\ItemInterface;
+use Nekland\FeedBundle\Item\GenericItem;
 
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 {
@@ -39,7 +39,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     public function add(ItemInterface $item)
     {
         $rc = new \ReflectionClass($this->config['class']);
-        if (!$rc->isInstance($item)) {
+        if (!($rc->isInstance($item) || $item instanceof GenericItem)) {
             throw new \InvalidArgumentException('The class given MUST be an instance of "' . $this->config['class'] . '".');
         }
 
@@ -88,14 +88,15 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $success = false;
         foreach ($this->items as $i => $item) {
-            if ($item->getId() === $id) {
+            if ($item->getFeedId() === $id) {
                 $this->items[$i] = $newItem;
+                $success = true;
                 break;
             }
         }
 
         if (false === $success) {
-            throw new \InvalidArgumentException('Unkow item');
+            throw new \InvalidArgumentException('Unknown item');
         }
 
         return $this;
@@ -115,6 +116,22 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     public function get($param, $default = null)
     {
         return isset($this->config[$param]) ? $this->config[$param] : $default;
+    }
+
+    public function set($param, $value)
+    {
+        $this->config[$param] = $value;
+    }
+
+    public function merge(Feed $feed)
+    {
+        $this->items = array();
+
+        foreach ($feed as $item) {
+            $this->add($item);
+        }
+
+        return $this;
     }
 
     /**

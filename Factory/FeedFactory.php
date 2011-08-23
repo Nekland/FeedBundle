@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 use Nekland\FeedBundle\Feed;
 use Nekland\FeedBundle\Renderer\RendererInterface;
+use Nekland\FeedBundle\Loader\LoaderInterface;
 
 /**
  * This class represent an agnostic feed, Atom, Rss, etc..
@@ -46,11 +47,34 @@ class FeedFactory extends ContainerAware
         return isset($this->config['feeds'][$feed]);
     }
 
-    public function render($feed, $renderer)
+    /**
+     * Renders a feed
+     *
+     * @param $feed
+     * @param $renderer
+     * @return
+     */
+    public function render($feed, $rendererName)
     {
-        $renderer = $this->getRenderer($renderer);
+        $renderer = $this->getRenderer($rendererName);
 
         return $renderer->render($this->get($feed));
+    }
+
+    /**
+     * Loads a feed
+     *
+     * @param $feedName
+     * @param $loader
+     * @return Feed
+     */
+    public function load($feedName, $loaderName)
+    {
+        $loader = $this->getLoader($loaderName);
+        $feed = $this->get($feedName);
+        $loadedFeed = $loader->load($feed->getFilename($loader->getFormat()));
+
+        return $this->feeds[$feedName] = $feed->merge($loadedFeed);
     }
 
     /**
@@ -82,6 +106,19 @@ class FeedFactory extends ContainerAware
         }
 
         throw new \InvalidArgumentException('Renderer '.$name.' doesn\'t exists');
+    }
+
+    /**
+     * @param $name
+     * @return LoaderInterface
+     */
+    protected function getLoader($name)
+    {
+        if (isset($this->config['loaders'][$name])) {
+            return $this->container->get($this->config['loaders'][$name]['id']);
+        }
+
+        throw new \InvalidArgumentException('Loader '.$name.' doesn\'t exists');
     }
 
 }

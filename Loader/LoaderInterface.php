@@ -11,5 +11,11 @@ interface LoaderInterface
      * @param $filename
      * @return Feed
      */
-    public function load($filename);
+    public function load($feedContent);
+
+    /**
+     * @abstract
+     * @return string (ex: "rss")
+     */
+    public function getFormat();
 }

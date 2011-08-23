@@ -7,7 +7,8 @@
     <parameters>
         <parameter key="nekland_feed.factory.class">Nekland\FeedBundle\Factory\FeedFactory</parameter>
         <parameter key="nekland_feed.renderer.rss.class">Nekland\FeedBundle\Renderer\RssRenderer</parameter>
-        <parameter key="nekland_feed.renderer.rss.base_path">%kernel.root_dir%/../web/feeds/</parameter>
+        <parameter key="nekland_feed.loader.rss_file.class">Nekland\FeedBundle\Loader\RssFileLoader</parameter>
+        <parameter key="nekland_feed.rss.base_path">%kernel.root_dir%/../web/feeds/</parameter>
     </parameters>
 
     <services>
@@ -19,7 +20,10 @@
         </service>
         <service id="nekland_feed.renderer.rss" class="%nekland_feed.renderer.rss.class%">
             <argument type="service" id="router" />
-            <argument>%nekland_feed.renderer.rss.base_path%</argument>
+            <argument>%nekland_feed.rss.base_path%</argument>
+        </service>
+        <service id="nekland_feed.loader.rss_file" class="%nekland_feed.loader.rss_file.class%">
+            <argument>%nekland_feed.rss.base_path%</argument>
         </service>
     </services>
 

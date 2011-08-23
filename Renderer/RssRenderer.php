@@ -132,7 +132,10 @@ class RssRenderer implements RendererInterface
 
         if ($item instanceof ExtendedItemInterface) {
 
-            $xml->addTextNode('author', $item->getAuthor(), $nodeItem);
+            if ($author = $this->getAuthor($item)) {
+                $xml->addTextNode('author', $author, $nodeItem);
+            }
+
             $xml->addTextNode('category', $item->getCategory(), $nodeItem);
 
             if ($comments = $this->getComments($item)) {
@@ -152,6 +155,16 @@ class RssRenderer implements RendererInterface
         $channelNode->appendChild($itemNode);
 
         return $itemNode;
+    }
+
+    private function getAuthor(ExtendedItemInterface $item)
+    {
+        $authorData = $item->getAuthor();
+        if (isset($authorData['email'])) {
+            return $authorData['email'];
+        }
+
+        return null;
     }
 
     private function getComments(ExtendedItemInterface $item)

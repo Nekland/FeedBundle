@@ -88,7 +88,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $success = false;
         foreach ($this->items as $i => $item) {
-            if ($item->getFeedId() === $id) {
+            if ($item->getFeedId() == $id) {
                 $this->items[$i] = $newItem;
                 $success = true;
                 break;
@@ -214,7 +214,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected function autoSlice()
     {
-        if (count($this) > 10) {
+        if (count($this) > $this->config['max_items']) {
             $this->items = array_slice(
                 $this->items,
                 count($this) - $this->config['max_items'],

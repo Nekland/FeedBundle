@@ -2,10 +2,11 @@
 
 namespace Nekland\FeedBundle\Renderer;
 
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\Router;
 
 use Nekland\FeedBundle\XML\XMLManager;
 use Nekland\FeedBundle\Feed;
+use Nekland\FeedBundle\Item\ItemInterface;
 
 /**
  * This class render an xml file
@@ -14,8 +15,9 @@ use Nekland\FeedBundle\Feed;
 
 class RssRenderer implements RendererInterface
 {
-    protected $xmlManager;
-    protected $items;
+    /**
+     * @var Router
+     */
     protected $router;
     protected $basePath;
 
@@ -27,137 +29,118 @@ class RssRenderer implements RendererInterface
 
     public function render(Feed $feed)
     {
-        
+        $filename = sprintf('%s/%s', $this->basePath, $feed->getFilename('rss'));
+        if (is_file($filename)) {
+            unlink($filename);
+        }
+
+        $xml = new XMLManager($filename);
+        $this->init($xml, $feed);
+        $this->writeItems($xml, $feed);
+        $xml->save();
     }
 
-    private function init()
+    private function init(XMLManager $xml, Feed $feed)
     {
-        $root = $this->xmlManager->getXml()->createElement('rss');
+        $root = $xml->getXml()->createElement('rss');
         $root->setAttribute('version', '2.0');
-        $root = $this->xmlManager->getXml()->appendChild($root);
+        $root = $xml->getXml()->appendChild($root);
 
-        $channel = $this->xmlManager->getXml()->createElement('channel');
+        $channel = $xml->getXml()->createElement('channel');
         $channel = $root->appendChild($channel);
 
-        $this->xmlManager->addTextNode('description', $this->config['description'], $channel);
-        $this->xmlManager->addTextNode('pubDate', date('D, j M Y H:i:s e'), $channel);
-        $this->xmlManager->addTextNode('lastBuildDate', date('D, j M Y H:i:s e'), $channel);
-        $this->xmlManager->addTextNode('link', $this->router($this->config['route']), $channel);
-        $this->xmlManager->addTextNode('title', $this->config['title'], $channel);
-        $this->xmlManager->addTextNode('language', $this->config['language'], $channel);
+        $xml->addTextNode('description', $feed->get('description'), $channel);
+        $xml->addTextNode('pubDate', date('D, j M Y H:i:s e'), $channel);
+        $xml->addTextNode('lastBuildDate', date('D, j M Y H:i:s e'), $channel);
+        $xml->addTextNode('link', $this->router->generate(
+            $feed->get('route'),
+            $feed->get('route_parameters', array()),
+            true
+        ), $channel);
+        $xml->addTextNode('title', $feed->get('title'), $channel);
+        $xml->addTextNode('language', $feed->get('language'), $channel);
 
-        if (isset($this->config['copyright'])) {
-            $this->xmlManager->addTextNode('copyright', $this->config['copyright'], $channel);
+        if (null !== $feed->get('copyright')) {
+            $xml->addTextNode('copyright', $feed->get('copyright'), $channel);
         }
 
-        if (isset($this->config['managingEditor'])) {
-            $this->xmlManager->addTextNode('managingEditor', $this->config['managingEditor'], $channel);
+        if (null !== $feed->get('managingEditor')) {
+            $xml->addTextNode('managingEditor', $feed->get('managingEditor'), $channel);
         }
 
-        if (isset($this->config['generator'])) {
-            $this->xmlManager->addTextNode('generator', $this->config['generator'], $channel);
+        if (null !== $feed->get('generator')) {
+            $xml->addTextNode('generator', $feed->get('generator'), $channel);
         }
 
-        if (isset($this->config['webMaster'])) {
-            $this->xmlManager->addTextNode('webMaster', $this->config['webMaster'], $channel);
+        if (null !== $feed->get('webMaster')) {
+            $xml->addTextNode('webMaster', $feed->get('webMaster'), $channel);
         }
 
+        $image = $feed->get('image', array());
+        if (isset($image['url']) && isset($image['title']) && isset($image['link'])) {
 
-        if (isset($this->config['image']) && isset($this->config['image']['url']) && isset($this->config['image']['title']) && isset($this->config['image']['link'])) {
-
-            $image = $this->xmlManager->getXml()->createElement('image');
-            $image = $channel->appendChild($image);
-            $this->xmlManager->addTextNode('url', $this->config['image']['url'], $image);
-            $this->xmlManager->addTextNode('title', $this->config['image']['title'], $image);
-            $this->xmlManager->addTextNode('link', $this->config['image']['link'], $image);
+            $imageNode = $xml->getXml()->createElement('image');
+            $imageNode = $channel->appendChild($imageNode);
+            $xml->addTextNode('url', $image['url'], $imageNode);
+            $xml->addTextNode('title', $image['url'], $imageNode);
+            $xml->addTextNode('link', $image['url'], $imageNode);
 
 
-            if (isset($this->config['image']['height'])) {
-
-                $this->xmlManager->addTextNode('height', $this->config['image']['height'], $image);
+            if (isset($image['height'])) {
+                $xml->addTextNode('height', $image['height'], $imageNode);
             }
-            if (isset($this->config['image']['width'])) {
-
-                $this->xmlManager->addTextNode('width', $this->config['image']['width'], $image);
+            if (isset($image['width'])) {
+                $xml->addTextNode('width', $image['width'], $imageNode);
             }
         }
 
-        if (isset($this->config['ttl'])) {
-            $this->xmlManager->addTextNode('ttl', $this->config['ttl'], $channel);
+        if (null !== $feed->get('ttl')) {
+            $xml->addTextNode('ttl', $feed->get('ttl'), $channel);
         }
 
     }
 
-    private function update()
+    private function writeItems(XMLManager $xml, Feed $feed)
     {
-
-        // Setting the last publication (lastBuildDate)
-        $lastBuild = $this->xmlManager->getXml()->getElementsByTagName('lastBuildDate')->item(0);
-        $lastBuild->removeChild($lastBuild->firstChild);
-        $text = $this->xmlManager->getXml()->createTextNode(date('D, j M Y H:i:s e'));
-        $lastBuild->appendChild($text);
-
-        // Deleting items if we have too much items
-        $l = $this->xmlManager->getXml()->getElementsByTagName('item')->length;
-        $nbDel = count($this->items) + $l - $this->config['max_items'];
-
-        if ($nbDel > 0) {
-            for ($i = 0; $i < $nbDel; $i++) {
-                $this->xmlManager->getXml()->getElementsByTagName('channel')->item(0)
-                        ->removeChild($this->xmlManager->getXml()->getElementsByTagName('item')->item($l - 1));
-            }
+        foreach ($feed as $item) {
+            $this->writeItem($xml, $item);
         }
     }
 
-    private function writeItems()
+    private function writeItem(XMLManager $xml, ItemInterface $item)
     {
-        $ci = count($this->items);
-        $rc = \ReflectionClass($this->config['class']);
+        $nodeItem = $this->createItem($xml);
+        $xml->addTextNode('title', $item->getTitle(), $nodeItem);
+        $xml->addTextNode('description', $item->getDescription(), $nodeItem);
 
-        for ($i = 0; $i < $ci; $i++) {
-            if (($itemNode = $this->exists($this->items[$i])) === false) {
+        $route = $item->getRoute();
 
-                $this->writeItem($this->xmlManager->getXml()->createElement('item'), $this->items[$i]);
-            } else {
+        $xml->addTextNode('guid', $item->getFeedId(), $nodeItem);
 
-                $this->updateItem($itemNode, $this->items[$i]);
-            }
-
-        }
-    }
-
-    private function writeItem(\DOMNode $nodeItem, RssItemInterface $item)
-    {
-
-        $this->xmlManager->addTextNode('title', $item->getRssTitle(), $item);
-        $this->xmlManager->addTextNode('description', $item->getRssDescription(), $item);
-
-        $route = $item->getRssRoute();
         if (is_array($route)) {
-
-            $this->xmlManager->addTextNode('description', $this->router->generate($route[0], $route[1]), $item);
+            $xml->addTextNode('description', $this->router->generate($route[0], $route[1]), $nodeItem);
         } else {
-
-            $this->xmlManager->addTextNode('description', $this->router->generate($route), $item);
+            $xml->addTextNode('description', $this->router->generate($route), $nodeItem);
         }
-        $this->xmlManager->addTextNode('pubDate', date('D, j M Y H:i:s e'), $item);
 
+        $xml->addTextNode('pubDate', date('D, j M Y H:i:s e'), $nodeItem);
+/*
         if ($rc->hasMethod('getRssAuthor')) {
-            $this->xmlManager->addTextNode('author', $item->getRssAuthor(), $item);
+            $xml->addTextNode('author', $item->getAuthor(), $item);
         }
 
         if ($rc->hasMethod('getRssCategory')) {
-            $this->xmlManager->addTextNode('category', $item->getRssCategory(), $item);
+            $xml->addTextNode('category', $item->getCategory(), $item);
         }
 
         if ($rc->hasMethod('getRssCommentRoute')) {
             $commentRoute = $item->getRssCommentRoute();
             if (is_array($commentRoute)) {
 
-                $this->xmlManager->addTextNode('comment', $this->router->generate($commentRoute[0], $commentRoute[1]), $item);
+                $xml->addTextNode('comment', $this->router->generate($commentRoute[0], $commentRoute[1]), $item);
             } else {
 
-                $this->xmlManager->addTextNode('comment', $this->router->generate($commentRoute), $item);
+                $xml->addTextNode('comment', $this->router->generate($commentRoute), $item);
             }
         }
         if ($rc->hasMethod('getRssEnclosure')) {
@@ -165,7 +148,7 @@ class RssRenderer implements RendererInterface
             if (!is_array($enc)) {
                 throw new \InvalidArgumentException('"getRssEnclosure" must return an array with properties.');
             }
-            $enclosure = $this->xmlManager->getXml()->createElement('enclosure');
+            $enclosure = $xml->getXml()->createElement('enclosure');
             foreach ($enc as $key => $value) {
 
                 $enclosure->setAttribute($key, $value);
@@ -173,44 +156,16 @@ class RssRenderer implements RendererInterface
 
             $item->appendChild($enclosure);
         }
-
-        if ($rc->hasMethod('getRssId')) {
-            $this->xmlManager->addTextNode('guid', $item->getRssGuid(), $item);
-        }
+*/
     }
 
-    private function updateItem(\DOMNode $nodeItem, RssItemInterface $item)
+    private function createItem(XMLManager $xml)
     {
-        $l = $nodeItem->childNodes->length;
-        for ($i = 0; $i < $l; $i++) {
-            $nodeItem->removeChild($nodeItem->childNodes->item(0));
-        }
+        $itemNode = $xml->getXml()->createElement('item');
+        $channelNode = $xml->getXml()->getElementsByTagName('channel')->item(0);
+        $channelNode->appendChild($itemNode);
 
-        $this->writeItem($nodeItem, $item);
-
+        return $itemNode;
     }
 
-    /**
-     * Check if the item exists in the file
-     */
-    private function exists($item)
-    {
-        $l = $this->xmlManager->getXml()->getElementsByTagName('guid')->length;
-        $itemNode = null;
-
-        for ($i = 0; $i < $l || $id !== null; $i++) {
-            $guidNode = $this->xmlManager->getXml()->getElementsByTagName('guid')->item($i);
-            $id = $guidNode->childNodes->item(0)->wholeText;
-            if ($id == $item->getId()) {
-                $itemNode = $guidNode->parentNode;
-            }
-        }
-
-        if ($id === null) {
-            return false;
-        } else {
-            return $itemNode;
-        }
-
-    }
 }

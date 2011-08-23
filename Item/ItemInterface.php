@@ -26,5 +26,5 @@ interface ItemInterface
     /**
      * @return unique identifiant (for editing)
      */
-    public function getId();
+    public function getFeedId();
 }

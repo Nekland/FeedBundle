@@ -29,7 +29,6 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $this->config = $config;
         $this->items = array();
-        $this->host = $host;
     }
 
     /**
@@ -71,7 +70,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         }
 
         if (false === $success) {
-            throw new \InvalidArgumentException('Unkow item');
+            throw new \InvalidArgumentException('Unknown item');
         }
 
         return $this;
@@ -105,6 +104,17 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     public function getFilename($format)
     {
         return strtr($this->config['filename'], array('%format%' => $format));
+    }
+
+    /**
+     * Return a configuration param
+     *
+     * @param $param
+     * @return mixed
+     */
+    public function get($param, $default = null)
+    {
+        return isset($this->config[$param]) ? $this->config[$param] : $default;
     }
 
     /**

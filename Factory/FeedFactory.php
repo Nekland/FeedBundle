@@ -2,13 +2,21 @@
 
 namespace Nekland\FeedBundle\Factory;
 
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 use Nekland\FeedBundle\Feed;
+use Nekland\FeedBundle\Renderer\RendererInterface;
+use Nekland\FeedBundle\Loader\LoaderInterface;
 
-class FeedFactory
+/**
+ * This class represent an agnostic feed, Atom, Rss, etc..
+ *
+ * @throws \InvalidArgumentException
+ * @author Yohan Giarelli <yohan@giarelli.org>
+ */
+class FeedFactory extends ContainerAware
 {
-
     /**
      * Will contains all feeds.
      * @var array|Feed
@@ -20,22 +28,9 @@ class FeedFactory
      */
     protected $config;
 
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
-     */
-    protected $router;
-    
-    /**
-     * Host of the site, needed for writing routes.
-     * @var string 
-     */
-    protected $host;
-    
-    public function __construct(ContainerInterface $container, Router $router, array $config)
+    public function __construct(array $config)
     {
-        $this->router = $router;
-        $this->config = $config['feeds'];
-        $this->host = $container->get('request')->getHost();
+        $this->config = $config;
     }
 
     public function setConfig(array $config)
@@ -49,7 +44,37 @@ class FeedFactory
      */
     public function has($feed)
     {
-        return isset($this->config[$feed]);
+        return isset($this->config['feeds'][$feed]);
+    }
+
+    /**
+     * Renders a feed
+     *
+     * @param $feed
+     * @param $renderer
+     * @return
+     */
+    public function render($feed, $rendererName)
+    {
+        $renderer = $this->getRenderer($rendererName);
+
+        return $renderer->render($this->get($feed));
+    }
+
+    /**
+     * Loads a feed
+     *
+     * @param $feedName
+     * @param $loader
+     * @return Feed
+     */
+    public function load($feedName, $loaderName)
+    {
+        $loader = $this->getLoader($loaderName);
+        $feed = $this->get($feedName);
+        $loadedFeed = $loader->load($feed->getFilename($loader->getFormat()));
+
+        return $this->feeds[$feedName] = $feed->merge($loadedFeed);
     }
 
     /**
@@ -64,9 +89,36 @@ class FeedFactory
         }
         
         if(!isset($this->feeds[$feed])) {
-            $this->feeds[$feed] = new Feed($this->router, $this->config[$feed], $this->host);
+            $this->feeds[$feed] = new Feed($this->config['feeds'][$feed]);
         }
         
         return $this->feeds[$feed];
     }
+
+    /**
+     * @param $name
+     * @return RendererInterface
+     */
+    protected function getRenderer($name)
+    {
+        if (isset($this->config['renderers'][$name])) {
+            return $this->container->get($this->config['renderers'][$name]['id']);
+        }
+
+        throw new \InvalidArgumentException('Renderer '.$name.' doesn\'t exists');
+    }
+
+    /**
+     * @param $name
+     * @return LoaderInterface
+     */
+    protected function getLoader($name)
+    {
+        if (isset($this->config['loaders'][$name])) {
+            return $this->container->get($this->config['loaders'][$name]['id']);
+        }
+
+        throw new \InvalidArgumentException('Loader '.$name.' doesn\'t exists');
+    }
+
 }

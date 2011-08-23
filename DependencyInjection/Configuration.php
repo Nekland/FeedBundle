@@ -25,6 +25,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->children()
                             ->scalarNode('class')->isRequired()->end()
+                            ->scalarNode('filename')->isRequired()->end()
                             ->scalarNode('title')->isRequired()->end()
                             ->scalarNode('description')->isRequired()->end()
                             ->scalarNode('language')->isRequired()->end()
@@ -34,6 +35,19 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('managingEditor')->end()
                             ->scalarNode('generator')->end()
                             ->scalarNode('webMaster')->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('renderers')
+                    ->defaultValue(array(
+                        'rss' => array(
+                            'id' => 'nekland_feed.renderer.rss'
+                        )
+                    ))
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('id')->isRequired()->end()
                         ->end()
                     ->end()
                 ->end()

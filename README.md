@@ -5,9 +5,8 @@ Under developpement.
 
 Do not use this bundle at this moment.
 
-Big changements are coming.
+Big changes are coming.
 
-----------------------------------
 
 Features
 --------
@@ -16,6 +15,7 @@ Features
  * support multiple feeds
  * support edit of feeds
  * extendable
+ * On-the-fly and at-save feed generation
 
 Configuration
 -------------
@@ -41,9 +41,15 @@ Tests
 NeklandFeedBundle is bundled with some behat flavoured tests. Install BehatBundle and launch it with
 
     app/console -e=test behat @NeklandFeedBundle
-    
+
+TODO
+----
+
+ * Loaders
+ * Atom
+ * Annotation configuration
 
 Thank you to
 -------------
 
- * yohang who work and help (a lot) on this project
+ * Yohan Giarelli <yohan@giarelli.org> who work and help on this project

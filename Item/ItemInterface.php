@@ -20,6 +20,7 @@ interface ItemInterface
      * Return the route of your item
      * @return string|array with [0] => 'route_name', [1] => params
      */
+
     public function getRoute();
 
     /**

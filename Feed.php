@@ -16,7 +16,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      * 'title' => 'My Rss title'
      * 'description' => 'My Rss description'
      * 'route' => 'My Rss site route' (home if not defined)
-     * @var array
+     * @var array $config
      */
     protected $config;
 
@@ -29,6 +29,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $this->config = $config;
         $this->items = array();
+        $this->host = $host;
     }
 
     /**
@@ -49,6 +50,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 
         return $this;
     }
+
 
     /**
      * Removes an item by Id
@@ -167,7 +169,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     public function setConfig(array $config)
     {
         $this->config = $config;
-        
+
         return $this;
     }
 

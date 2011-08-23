@@ -2,6 +2,7 @@
 
 namespace Nekland\FeedBundle\Factory;
 
+
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 use Nekland\FeedBundle\Feed;
@@ -82,6 +83,5 @@ class FeedFactory extends ContainerAware
 
         throw new \InvalidArgumentException('Renderer '.$name.' doesn\'t exists');
     }
-
 
 }

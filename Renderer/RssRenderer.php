@@ -19,6 +19,10 @@ class RssRenderer implements RendererInterface
      * @var Router
      */
     protected $router;
+
+    /**
+     * @var string
+     */
     protected $basePath;
 
     public function __construct(Router $router, $basePath)

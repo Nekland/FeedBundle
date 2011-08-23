@@ -20,15 +20,40 @@ use Nekland\FeedBundle\Feed;
  */
 class FeatureContext extends BehatContext
 {
+    /**
+     * @var \Nekland\FeedBundle\Factory\FeedFactory
+     */
     protected $factory;
 
+    /**
+     * @var bool
+     */
     protected $has;
 
+    /**
+     * @var Feed
+     */
     protected $feed;
 
+    /**
+     * @var int
+     */
     protected $count;
 
+    /**
+     * @var \Nekland\FeedBundle\Item\ExtendedItemInterface
+     */
     protected $currentItem;
+
+    /**
+     * @var \Nekland\FeedBundle\Loader\RssLoader
+     */
+    protected $loader;
+
+    /**
+     * @var string
+     */
+    protected $xml;
     
     /**
      * @Given /^I know the container$/
@@ -189,6 +214,31 @@ class FeatureContext extends BehatContext
         for ($i = 0; $i < $argument1; $i++) {
             $this->iAddAnItem($i);
         }
+    }
+
+    /**
+     * @Given /^I have this XML$/
+     */
+    public function iHaveThisXML(PyStringNode $string)
+    {
+        $this->xml = $string->getRaw();
+    }
+
+    /**
+     * @When /^I load the string$/
+     */
+    public function iLoadTheString()
+    {
+        $this->loader = new \Nekland\FeedBundle\Loader\RssLoader();
+        $this->feed = $this->loader->load($this->xml);
+    }
+
+    /**
+     * @Then /^the parameter "([^"]*)" is "([^"]*)"$/
+     */
+    public function theParameterIs($argument1, $argument2)
+    {
+        $this->assertEquals($this->feed->get($argument1), $argument2);
     }
 
     protected function assertEquals($value1, $value2)

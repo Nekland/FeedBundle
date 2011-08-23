@@ -214,11 +214,12 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected function autoSlice()
     {
-        if (count($this) > $this->config['max_items']) {
+        $maxItems = $this->get('max_items', 10);
+        if (count($this) > $maxItems) {
             $this->items = array_slice(
                 $this->items,
-                count($this) - $this->config['max_items'],
-                $this->config['max_items']
+                count($this) - $maxItems,
+                $maxItems
             );
         }
 

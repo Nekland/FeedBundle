@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Router;
 use Nekland\FeedBundle\XML\XMLManager;
 use Nekland\FeedBundle\Feed;
 use Nekland\FeedBundle\Item\ItemInterface;
+use Nekland\FeedBundle\Item\ExtendedItemInterface;
 
 /**
  * This class render an xml file
@@ -128,39 +129,20 @@ class RssRenderer implements RendererInterface
         }
 
         $xml->addTextNode('pubDate', date('D, j M Y H:i:s e'), $nodeItem);
-/*
-        if ($rc->hasMethod('getRssAuthor')) {
-            $xml->addTextNode('author', $item->getAuthor(), $item);
-        }
 
-        if ($rc->hasMethod('getRssCategory')) {
-            $xml->addTextNode('category', $item->getCategory(), $item);
-        }
+        if ($item instanceof ExtendedItemInterface) {
 
-        if ($rc->hasMethod('getRssCommentRoute')) {
-            $commentRoute = $item->getRssCommentRoute();
-            if (is_array($commentRoute)) {
+            $xml->addTextNode('author', $item->getAuthor(), $nodeItem);
+            $xml->addTextNode('category', $item->getCategory(), $nodeItem);
 
-                $xml->addTextNode('comment', $this->router->generate($commentRoute[0], $commentRoute[1]), $item);
-            } else {
-
-                $xml->addTextNode('comment', $this->router->generate($commentRoute), $item);
-            }
-        }
-        if ($rc->hasMethod('getRssEnclosure')) {
-            $enc = $item->getRssEnclosure();
-            if (!is_array($enc)) {
-                throw new \InvalidArgumentException('"getRssEnclosure" must return an array with properties.');
-            }
-            $enclosure = $xml->getXml()->createElement('enclosure');
-            foreach ($enc as $key => $value) {
-
-                $enclosure->setAttribute($key, $value);
+            if ($comments = $this->getComments($item)) {
+                $xml->addTextNode('comments', $comments, $nodeItem);
             }
 
-            $item->appendChild($enclosure);
+            if ($enclosure = $this->getEnclosure($item, $xml)) {
+                $nodeItem->appendChild($enclosure);
+            }
         }
-*/
     }
 
     private function createItem(XMLManager $xml)
@@ -170,6 +152,33 @@ class RssRenderer implements RendererInterface
         $channelNode->appendChild($itemNode);
 
         return $itemNode;
+    }
+
+    private function getComments(ExtendedItemInterface $item)
+    {
+        $commentRoute = $item->getCommentRoute();
+        if (!$commentRoute) {
+            return null;
+        } else if (is_array($commentRoute)) {
+            return $this->router->generate($commentRoute[0], $commentRoute[1]);
+        } else {
+            return $this->router->generate($commentRoute);
+        }
+    }
+
+    private function getEnclosure(ExtendedItemInterface $item, XMLManager $xml)
+    {
+        $enc = $item->getEnclosure();
+        if (is_array($enc)) {
+            $enclosure = $xml->getXml()->createElement('enclosure');
+            foreach ($enc as $key => $value) {
+                $enclosure->setAttribute($key, $value);
+            }
+
+            return $enclosure;
+        }
+
+        return null;
     }
 
 }

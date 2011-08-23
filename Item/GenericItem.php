@@ -6,6 +6,8 @@ use Nekland\FeedBundle\Item\ExtendedItemInterface;
 
 /**
  * This class represent a generic Feed item (used for feed loading)
+ *
+ * @author Yohan Giarelli <yohan@giarelli.org>
  */
 class GenericItem implements ExtendedItemInterface
 {

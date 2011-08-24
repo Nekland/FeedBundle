@@ -14,6 +14,7 @@ use Nekland\FeedBundle\Loader\LoaderInterface;
  *
  * @throws \InvalidArgumentException
  * @author Yohan Giarelli <yohan@giarelli.org>
+ * @author Nek-
  */
 class FeedFactory extends ContainerAware
 {
@@ -68,7 +69,7 @@ class FeedFactory extends ContainerAware
      * @param $loader
      * @return Feed
      */
-    public function load($feedName, $loaderName)
+    public function load($feedName, $loaderName='rss_file')
     {
         $loader = $this->getLoader($loaderName);
         $feed = $this->get($feedName);

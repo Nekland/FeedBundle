@@ -94,7 +94,7 @@ TODO
  * Atom
  * Annotation configuration
 
-Thank you to
+Contributors :
 -------------
 
- * Yohan Giarelli <yohan@giarelli.org> who work and help on this project
+ * Yohan Giarelli <yohan@giarelli.org> 

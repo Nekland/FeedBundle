@@ -20,45 +20,46 @@ class GenericItem implements ExtendedItemInterface
         $feedId,
         $author,
         $commentRoute,
-        $enclosure
+        $enclosure,
+        $route
     ;
 
-    public function setAuthor($author)
+    public function setFeedAuthor($author)
     {
         $this->author = $author;
     }
 
-    public function getAuthor()
+    public function getFeedAuthor()
     {
         return $this->author;
     }
 
-    public function setCommentRoute($commentRoute)
+    public function setFeedCommentRoute($commentRoute)
     {
         $this->commentRoute = $commentRoute;
     }
 
-    public function getCommentRoute()
+    public function getFeedCommentRoute()
     {
         return $this->commentRoute;
     }
 
-    public function setDescription($description)
+    public function setFeedDescription($description)
     {
         $this->description = $description;
     }
 
-    public function getDescription()
+    public function getFeedDescription()
     {
         return $this->description;
     }
 
-    public function setEnclosure($enclosure)
+    public function setFeedEnclosure($enclosure)
     {
         $this->enclosure = $enclosure;
     }
 
-    public function getEnclosure()
+    public function getFeedEnclosure()
     {
         return $this->enclosure;
     }
@@ -73,47 +74,51 @@ class GenericItem implements ExtendedItemInterface
         return $this->feedId;
     }
 
-    public function setTitle($title)
+    public function setFeedTitle($title)
     {
         $this->title = $title;
     }
 
-    public function getTitle()
+    public function getFeedTitle()
     {
         return $this->title;
     }
 
-    public function setCategory($category)
+    public function setFeedCategory($category)
     {
         $this->category = $category;
     }
 
-    public function getCategory()
+    public function getFeedCategory()
     {
         return $this->category;
     }
 
-    public function setDate($date)
+    public function setFeedDate($date)
     {
         $this->date = new \DateTime($date);
     }
 
-    public function getDate()
+    public function getFeedDate()
     {
         return $this->date;
     }
 
-    public function setLink($link)
+    public function setFeedLink($link)
     {
         $this->link = $link;
     }
 
-    public function getLink()
+    public function getFeedLink()
     {
         return $this->link;
     }
 
-    public function getRoute()
+    public function setFeedRoute($route){
+        $this->route = $route;
+    }
+
+    public function getFeedRoute()
     {
         return '';
     }

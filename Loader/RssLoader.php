@@ -10,12 +10,13 @@ use Nekland\FeedBundle\Item\GenericItem;
  *
  * @throws \InvalidArgumentException
  * @author Yohan Giarelli <yohan@giarelli.org>
+ * @author Nek-
  */
 class RssLoader implements LoaderInterface
 {
     protected static $methodMapping = array(
         'guid'    => 'setFeedId',
-        'pubDate' => 'setDate'
+        'pubDate' => 'setFeedDate'
     );
 
     /**
@@ -56,7 +57,7 @@ class RssLoader implements LoaderInterface
         foreach ($element as $subElement) {
             $method = isset(self::$methodMapping[$subElement->getName()]) ?
                 self::$methodMapping[$subElement->getName()] :
-                'set'.ucfirst($subElement->getName());
+                'setFeed'.ucfirst($subElement->getName());
 
             if ($subElement->getName() == 'author') {
                 $item->setAuthor(array('email' => (string)$subElement));

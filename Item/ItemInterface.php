@@ -8,25 +8,29 @@ interface ItemInterface
      * Return the title of your rss, something like "My blog rss"
      * @return string
      */
-    public function getTitle();
+    public function getFeedTitle();
 
     /*
      * Return the description of your rss, someting like "This is the rss of my blog about foo and bar"
      * @return string
      */
-    public function getDescription();
+    public function getFeedDescription();
 
     /*
      * Return the route of your item
      * @return string|array with [0] => 'route_name', [1] => params
      */
 
-    public function getRoute();
+    public function getFeedRoute();
 
     /**
      * @return unique identifiant (for editing)
      */
     public function getFeedId();
 
-    public function getDate();
+    /**
+     * @abstract
+     * @return 
+     */
+    public function getFeedDate();
 }

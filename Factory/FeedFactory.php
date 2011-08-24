@@ -55,7 +55,7 @@ class FeedFactory extends ContainerAware
      * @param $renderer
      * @return
      */
-    public function render($feed, $rendererName)
+    public function render($feed, $rendererName='rss')
     {
         $renderer = $this->getRenderer($rendererName);
 

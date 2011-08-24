@@ -16,7 +16,7 @@ class GenericItem implements ExtendedItemInterface
         $date,
         $category,
         $description,
-        $route,
+        $link,
         $feedId,
         $author,
         $commentRoute,
@@ -73,16 +73,6 @@ class GenericItem implements ExtendedItemInterface
         return $this->feedId;
     }
 
-    public function setRoute($route)
-    {
-        $this->route = $route;
-    }
-
-    public function getRoute()
-    {
-        return $this->route;
-    }
-
     public function setTitle($title)
     {
         $this->title = $title;
@@ -112,4 +102,21 @@ class GenericItem implements ExtendedItemInterface
     {
         return $this->date;
     }
+
+    public function setLink($link)
+    {
+        $this->link = $link;
+    }
+
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    public function getRoute()
+    {
+        return '';
+    }
+
+
 }

@@ -1,11 +1,7 @@
 FeedBundle
 ===========
 
-Under developpement.
-
-Do not use this bundle at this moment.
-
-Big changes are coming.
+Version 1.0
 
 
 Features

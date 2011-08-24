@@ -30,7 +30,7 @@ interface ItemInterface
 
     /**
      * @abstract
-     * @return 
+     * @return \DateTime
      */
     public function getFeedDate();
 }

@@ -5,11 +5,12 @@ namespace Nekland\FeedBundle\Loader;
 /**
  * Loads an RSS file
  * @author <yohan@giarelli.org>
+ * @author Nek' <nek.dev+github@gmail.com>
  */
 class RssFileLoader extends RssLoader implements FileLoaderInterface
 {
     protected $basePath;
-    
+
     public function __construct($basePath)
     {
         $this->basePath = $basePath;
@@ -17,11 +18,18 @@ class RssFileLoader extends RssLoader implements FileLoaderInterface
 
     public function load($filename)
     {
-        return parent::load($this->getContent($filename));
+        $filename = sprintf('%s/%s', $this->basePath, $filename);
+        if(file_exists($filename)) {
+
+            return parent::load($this->getContent($filename));
+        } else {
+            
+            return new \Nekland\FeedBundle\Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        }
     }
 
     public function getContent($filename)
     {
-        return file_get_contents(sprintf('%s/%s', $this->basePath, $filename));
+        return file_get_contents($filename);
     }
 }

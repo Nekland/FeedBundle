@@ -9,7 +9,8 @@ use Nekland\FeedBundle\Item\GenericItem;
 
 /**
  * @throws \InvalidArgumentException
- * @author Nek-
+ * 
+ * @author Nek' <nek.dev+github@gmail.com>
  * @author Yohan Giarelli <yohan@giarelli.org>
  */
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate

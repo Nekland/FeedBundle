@@ -14,7 +14,7 @@ use Nekland\FeedBundle\Loader\LoaderInterface;
  *
  * @throws \InvalidArgumentException
  * @author Yohan Giarelli <yohan@giarelli.org>
- * @author Nek-
+ * @author Nek' <nek.dev+github@gmail.com>
  */
 class FeedFactory extends ContainerAware
 {

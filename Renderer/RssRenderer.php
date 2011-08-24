@@ -12,6 +12,9 @@ use Nekland\FeedBundle\Item\ExtendedItemInterface;
 /**
  * This class render an xml file
  * Using format RSS 2.0
+ *
+ * @author Nek' <nek.dev+github@gmail.com>
+ * @author Yohan Giarelli <yohan@giarelli.org>
  */
 
 class RssRenderer implements RendererInterface
@@ -142,27 +145,24 @@ class RssRenderer implements RendererInterface
     private function writeItem(XMLManager $xml, ItemInterface $item)
     {
         $nodeItem = $this->createItem($xml);
-        $xml->addTextNode('title', $item->getTitle(), $nodeItem);
-        $xml->addTextNode('description', $item->getDescription(), $nodeItem);
+        $xml->addTextNode('title', $item->getFeedTitle(), $nodeItem);
+        $xml->addTextNode('description', $item->getFeedDescription(), $nodeItem);
 
-        $route = $item->getRoute();
+        $id=$item->getFeedId();
+        if(empty($id))
+            throw new \InvalidArgumentException('The method « getFeedId » MUST return a not empty value.');
+        $xml->addTextNode('guid', $id, $nodeItem);
 
-        $xml->addTextNode('guid', $item->getFeedId(), $nodeItem);
+        $xml->addTextNode('description', $this->getRoute($item), $nodeItem);
 
-        if (is_array($route)) {
-            $xml->addTextNode('description', $this->router->generate($route[0], $route[1]), $nodeItem);
-        } else {
-            $xml->addTextNode('description', $this->router->generate($route), $nodeItem);
-        }
-
-        $xml->addTextNode('pubDate', date('D, j M Y H:i:s e'), $nodeItem);
+        $xml->addTextNode('pubDate', $item->getFeedDate()->format('D, j M Y H:i:s e'), $nodeItem);
 
         if ($item instanceof ExtendedItemInterface) {
             if ($author = $this->getAuthor($item)) {
                 $xml->addTextNode('author', $author, $nodeItem);
             }
 
-            $xml->addTextNode('category', $item->getCategory(), $nodeItem);
+            $xml->addTextNode('category', $item->getFeedCategory(), $nodeItem);
 
             if ($comments = $this->getComments($item)) {
                 $xml->addTextNode('comments', $comments, $nodeItem);
@@ -197,9 +197,17 @@ class RssRenderer implements RendererInterface
      */
     private function getAuthor(ExtendedItemInterface $item)
     {
-        $authorData = $item->getAuthor();
+        $authorData = $item->getFeedAuthor();
+        $author = '';
+        if(isset($authorData['nickname'])) {
+            $author .= $authorData['nickname'];
+        }
         if (isset($authorData['email'])) {
-            return $authorData['email'];
+            $author = empty($author) ? $authorData['email'] : ' ' . $authorData['email'];
+        }
+
+        if(!empty($author)) {
+            return $author;
         }
 
         return null;
@@ -213,7 +221,7 @@ class RssRenderer implements RendererInterface
      */
     private function getComments(ExtendedItemInterface $item)
     {
-        $commentRoute = $item->getCommentRoute();
+        $commentRoute = $item->getFeedCommentRoute();
         if (!$commentRoute) {
             return null;
         } else if (is_array($commentRoute)) {
@@ -232,7 +240,7 @@ class RssRenderer implements RendererInterface
      */
     private function getEnclosure(ExtendedItemInterface $item, XMLManager $xml)
     {
-        $enc = $item->getEnclosure();
+        $enc = $item->getFeedEnclosure();
         if (is_array($enc)) {
             $enclosure = $xml->getXml()->createElement('enclosure');
             foreach ($enc as $key => $value) {
@@ -243,6 +251,18 @@ class RssRenderer implements RendererInterface
         }
 
         return null;
+    }
+
+    private function getRoute(ItemInterface $item) {
+        $route = $item->getFeedRoute();
+
+        if(is_array($route)) {
+
+            return $this->router->generate($route[0], $route[1], true);
+        } else {
+
+            return $route;
+        }
     }
 
 }

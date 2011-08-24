@@ -10,7 +10,7 @@ use Nekland\FeedBundle\Item\GenericItem;
  *
  * @throws \InvalidArgumentException
  * @author Yohan Giarelli <yohan@giarelli.org>
- * @author Nek-
+ * @author Nek' <nek.dev+github@gmail.com>
  */
 class RssLoader implements LoaderInterface
 {
@@ -26,12 +26,14 @@ class RssLoader implements LoaderInterface
      */
     public function load($feedContent)
     {
+        $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
         $xml = simplexml_load_string($feedContent);
+        
         if (false === $xml) {
             throw new \InvalidArgumentException('The given data is not a valid XML string.');
         }
 
-        $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        
 
         foreach ($xml->channel[0] as $xmlItem) {
             if ($xmlItem->getName() != 'item') {
@@ -89,7 +91,7 @@ class RssLoader implements LoaderInterface
 
     /**
      * Extract array params
-     * 
+     *
      * @param \SimpleXMLElement $element
      * @return array
      */
@@ -106,7 +108,7 @@ class RssLoader implements LoaderInterface
 
         return $param;
     }
-    
+
     /**
      * @return string (ex: "rss")
      */

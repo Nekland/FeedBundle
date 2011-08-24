@@ -1,6 +1,6 @@
 Feature: NeklandFeedBundle FeedFactory
     In order to easily manage feeds
-    As a feed user
+    As a developper
     I need to be able to retrieve feeds via FeedFactory
 
     Scenario: Retrieve the factory service

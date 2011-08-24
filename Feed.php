@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Nekland\FeedBundle\Item\ItemInterface;
 use Nekland\FeedBundle\Item\GenericItem;
 
+/**
+ * @throws \InvalidArgumentException
+ * @author Nek-
+ * @author Yohan Giarelli <yohan@giarelli.org>
+ */
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
@@ -88,7 +93,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $success = false;
         foreach ($this->items as $i => $item) {
-            if ($item->getFeedId() === $id) {
+            if ($item->getFeedId() == $id) {
                 $this->items[$i] = $newItem;
                 $success = true;
                 break;
@@ -102,6 +107,12 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         return $this;
     }
 
+    /**
+     * Returns the feed filename
+     *
+     * @param $format
+     * @return string
+     */
     public function getFilename($format)
     {
         return strtr($this->config['filename'], array('%format%' => $format));
@@ -118,11 +129,24 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         return isset($this->config[$param]) ? $this->config[$param] : $default;
     }
 
+    /**
+     * Set a configuration param
+     *
+     * @param $param
+     * @param $value
+     * @return void
+     */
     public function set($param, $value)
     {
         $this->config[$param] = $value;
     }
 
+    /**
+     * Merge 2 feeds
+     *
+     * @param Feed $feed
+     * @return Feed
+     */
     public function merge(Feed $feed)
     {
         $this->items = array();
@@ -214,11 +238,12 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected function autoSlice()
     {
-        if (count($this) > 10) {
+        $maxItems = $this->get('max_items', 10);
+        if (count($this) > $maxItems) {
             $this->items = array_slice(
                 $this->items,
-                count($this) - $this->config['max_items'],
-                $this->config['max_items']
+                count($this) - $maxItems,
+                $maxItems
             );
         }
 

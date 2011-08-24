@@ -5,6 +5,12 @@ namespace Nekland\FeedBundle\Loader;
 use Nekland\FeedBundle\Feed;
 use Nekland\FeedBundle\Item\GenericItem;
 
+/**
+ * Loads RSS-XML and build a Feed object
+ *
+ * @throws \InvalidArgumentException
+ * @author Yohan Giarelli <yohan@giarelli.org>
+ */
 class RssLoader implements LoaderInterface
 {
     protected static $methodMapping = array(
@@ -37,6 +43,13 @@ class RssLoader implements LoaderInterface
         return $feed;
     }
 
+    /**
+     * Adds an Item to the feed
+     *
+     * @param \SimpleXMLElement $element
+     * @param \Nekland\FeedBundle\Feed $feed
+     * @return void
+     */
     protected function addItem(\SimpleXMLElement $element, Feed $feed)
     {
         $item = new GenericItem;
@@ -57,6 +70,13 @@ class RssLoader implements LoaderInterface
         $feed->add($item);
     }
 
+    /**
+     * Set a feed param
+     *
+     * @param \SimpleXMLElement $element
+     * @param \Nekland\FeedBundle\Feed $feed
+     * @return void
+     */
     protected function setParam(\SimpleXMLElement $element, Feed $feed)
     {
         if (count($element) === 0) {
@@ -66,6 +86,12 @@ class RssLoader implements LoaderInterface
         }
     }
 
+    /**
+     * Extract array params
+     * 
+     * @param \SimpleXMLElement $element
+     * @return array
+     */
     protected function extractParam(\SimpleXMLElement $element)
     {
         $param = array();

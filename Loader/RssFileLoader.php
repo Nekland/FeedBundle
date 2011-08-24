@@ -2,6 +2,10 @@
 
 namespace Nekland\FeedBundle\Loader;
 
+/**
+ * Loads an RSS file
+ * @author <yohan@giarelli.org>
+ */
 class RssFileLoader extends RssLoader implements FileLoaderInterface
 {
     protected $basePath;

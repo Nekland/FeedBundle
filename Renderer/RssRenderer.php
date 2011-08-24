@@ -32,6 +32,12 @@ class RssRenderer implements RendererInterface
         $this->basePath = $basePath;
     }
 
+    /**
+     * Renders the feed
+     *
+     * @param \Nekland\FeedBundle\Feed $feed
+     * @return void
+     */
     public function render(Feed $feed)
     {
         $filename = sprintf('%s/%s', $this->basePath, $feed->getFilename('rss'));
@@ -45,6 +51,13 @@ class RssRenderer implements RendererInterface
         $xml->save();
     }
 
+    /**
+     * Build the feed properties
+     *
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\FeedBundle\Feed $feed
+     * @return void
+     */
     private function init(XMLManager $xml, Feed $feed)
     {
         $root = $xml->getXml()->createElement('rss');
@@ -105,6 +118,13 @@ class RssRenderer implements RendererInterface
 
     }
 
+    /**
+     * Write Feed Items
+     *
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\FeedBundle\Feed $feed
+     * @return void
+     */
     private function writeItems(XMLManager $xml, Feed $feed)
     {
         foreach ($feed as $item) {
@@ -112,6 +132,13 @@ class RssRenderer implements RendererInterface
         }
     }
 
+    /**
+     * Write an ItemInterface into the feed
+     * 
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\FeedBundle\Item\ItemInterface $item
+     * @return void
+     */
     private function writeItem(XMLManager $xml, ItemInterface $item)
     {
         $nodeItem = $this->createItem($xml);
@@ -131,7 +158,6 @@ class RssRenderer implements RendererInterface
         $xml->addTextNode('pubDate', date('D, j M Y H:i:s e'), $nodeItem);
 
         if ($item instanceof ExtendedItemInterface) {
-
             if ($author = $this->getAuthor($item)) {
                 $xml->addTextNode('author', $author, $nodeItem);
             }
@@ -148,6 +174,12 @@ class RssRenderer implements RendererInterface
         }
     }
 
+    /**
+     * Create an Item node
+     *
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @return \DOMElement
+     */
     private function createItem(XMLManager $xml)
     {
         $itemNode = $xml->getXml()->createElement('item');
@@ -157,6 +189,12 @@ class RssRenderer implements RendererInterface
         return $itemNode;
     }
 
+    /**
+     * Extract the author email
+     *
+     * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
+     * @return null
+     */
     private function getAuthor(ExtendedItemInterface $item)
     {
         $authorData = $item->getAuthor();
@@ -167,6 +205,12 @@ class RssRenderer implements RendererInterface
         return null;
     }
 
+    /**
+     * Extracts the Comments URI
+     *
+     * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
+     * @return null|string
+     */
     private function getComments(ExtendedItemInterface $item)
     {
         $commentRoute = $item->getCommentRoute();
@@ -179,6 +223,13 @@ class RssRenderer implements RendererInterface
         }
     }
 
+    /**
+     * Extract enclosure
+     *
+     * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @return \DOMElement|null
+     */
     private function getEnclosure(ExtendedItemInterface $item, XMLManager $xml)
     {
         $enc = $item->getEnclosure();

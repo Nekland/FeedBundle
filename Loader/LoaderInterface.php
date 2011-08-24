@@ -4,6 +4,11 @@ namespace Nekland\FeedBundle\Loader;
 
 use Nekland\FeedBundle\Feed;
 
+/**
+ * Interface for all Feed loaders
+ *
+ * @author Yohan Giarelli <yohan@giarelli.org>
+ */
 interface LoaderInterface
 {
     /**

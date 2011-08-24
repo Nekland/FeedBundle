@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Nekland\FeedBundle\Item\ItemInterface;
 use Nekland\FeedBundle\Item\GenericItem;
 
+/**
+ * @throws \InvalidArgumentException
+ * @author Nek-
+ * @author Yohan Giarelli <yohan@giarelli.org>
+ */
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
@@ -102,6 +107,12 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         return $this;
     }
 
+    /**
+     * Returns the feed filename
+     *
+     * @param $format
+     * @return string
+     */
     public function getFilename($format)
     {
         return strtr($this->config['filename'], array('%format%' => $format));
@@ -118,11 +129,24 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
         return isset($this->config[$param]) ? $this->config[$param] : $default;
     }
 
+    /**
+     * Set a configuration param
+     *
+     * @param $param
+     * @param $value
+     * @return void
+     */
     public function set($param, $value)
     {
         $this->config[$param] = $value;
     }
 
+    /**
+     * Merge 2 feeds
+     *
+     * @param Feed $feed
+     * @return Feed
+     */
     public function merge(Feed $feed)
     {
         $this->items = array();

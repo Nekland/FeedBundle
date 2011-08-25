@@ -26,4 +26,9 @@ interface ExtendedItemInterface extends ItemInterface
      * @return array with param1 => "value1", param3 => "value 2", ...
      */
     public function getFeedEnclosure();
+
+    /**
+     * @return string
+     */
+    public function getFeedSummary();
 }

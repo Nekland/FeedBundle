@@ -22,7 +22,8 @@ class GenericItem implements ExtendedItemInterface
         $author,
         $commentRoute,
         $enclosure,
-        $route
+        $route,
+        $summary
     ;
 
     public function setFeedAuthor($author)
@@ -122,6 +123,14 @@ class GenericItem implements ExtendedItemInterface
     public function getFeedRoute()
     {
         return '';
+    }
+
+    public function getFeedSummary() {
+        return $this->summary;
+    }
+
+    public function setFeedSummary($summary) {
+        $this->summary = $summary;
     }
 
 

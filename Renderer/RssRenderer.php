@@ -157,17 +157,20 @@ class RssRenderer implements RendererInterface
 
         $xml->addTextNode('pubDate', $item->getFeedDate()->format('D, j M Y H:i:s e'), $nodeItem);
 
-        if ($item instanceof ExtendedItemInterface) {
+        if ($this->itemHas($item, 'getAuthor')) {
             if ($author = $this->getAuthor($item)) {
                 $xml->addTextNode('author', $author, $nodeItem);
             }
-
+        }
+        if ($this->itemHas($item, 'getCategory')) {
             $xml->addTextNode('category', $item->getFeedCategory(), $nodeItem);
-
+        }
+        if ($this->itemHas($item, 'getComments')) {
             if ($comments = $this->getComments($item)) {
                 $xml->addTextNode('comments', $comments, $nodeItem);
             }
-
+        }
+        if ($this->itemHas($item, 'getEnclosure')) {
             if ($enclosure = $this->getEnclosure($item, $xml)) {
                 $nodeItem->appendChild($enclosure);
             }
@@ -262,6 +265,15 @@ class RssRenderer implements RendererInterface
         } else {
 
             return $route;
+        }
+    }
+
+    private function itemHas(ItemInterface $item, $method) {
+        $rc = new \ReflectionClass($item);
+        if($rc->hasMethod($method)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -69,7 +69,7 @@ class FeedFactory extends ContainerAware
      * @param $loader
      * @return Feed
      */
-    public function load($feedName, $loaderName='rss_file')
+    public function load($feedName, $loaderName = 'rss_file')
     {
         $loader = $this->getLoader($loaderName);
         $feed = $this->get($feedName);

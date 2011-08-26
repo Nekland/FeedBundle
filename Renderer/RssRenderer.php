@@ -71,8 +71,11 @@ class RssRenderer implements RendererInterface
         $channel = $root->appendChild($channel);
 
         $xml->addTextNode('description', $feed->get('description'), $channel);
-        $xml->addTextNode('pubDate', date('D, j M Y H:i:s e'), $channel);
-        $xml->addTextNode('lastBuildDate', date('D, j M Y H:i:s e'), $channel);
+
+        $xml->addTextNode('pubDate', $feed->get('pubDate', new \DateTime())->format(DateTime::RSS), $channel);
+        $date = new \DateTime();
+        $xml->addTextNode('lastBuildDate', $date->format(DateTime::RSS), $channel);
+
         $xml->addTextNode('link', $this->router->generate(
             $feed->get('route'),
             $feed->get('route_parameters', array()),
@@ -155,7 +158,7 @@ class RssRenderer implements RendererInterface
 
         $xml->addTextNode('description', $this->getRoute($item), $nodeItem);
 
-        $xml->addTextNode('pubDate', $item->getFeedDate()->format('D, j M Y H:i:s e'), $nodeItem);
+        $xml->addTextNode('pubDate', $item->getFeedDate()->format(DateTime::RSS), $nodeItem);
 
         if ($this->itemHas($item, 'getAuthor')) {
             if ($author = $this->getAuthor($item)) {

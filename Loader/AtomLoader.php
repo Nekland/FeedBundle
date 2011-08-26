@@ -57,7 +57,11 @@ class AtomLoader implements LoaderInterface
                     'setFeed' . ucfirst($subElement->getName());
 
             if ($subElement->getName() == 'author') {
-                $item->setAuthor(array('email' => (string)$subElement));
+                $author = array();
+                foreach($subElement as $authorElement) {
+                    $author[$authorElement->getName()] = (string) $authorElement;
+                }
+                $item->setAuthor($author);
             } else if (count($subElement) === 0) {
                 $item->$method((string)$subElement);
             } else {

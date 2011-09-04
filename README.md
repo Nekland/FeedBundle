@@ -99,6 +99,10 @@ TODO
 ----
 
  * Annotation configuration
+ 
+Author :
+-------------
+ * Nek <nek.dev+github@gmail.com> ( http://twitter.com/#!/Nekdev )
 
 Contributors :
 -------------

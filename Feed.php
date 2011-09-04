@@ -68,7 +68,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     {
         $success = false;
         foreach ($this->items as $i => $item) {
-            if ($item->getId() === $id) {
+            if ($item->getFeedId() === $id) {
                 unset($this->items[$i]);
                 $success = true;
                 break;
@@ -116,7 +116,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function getFilename($format)
     {
-        return strtr($this->config['filename'], array('%format%' => $format));
+        return strtr($this->config['filename'], array('|format|' => $format));
     }
 
     /**

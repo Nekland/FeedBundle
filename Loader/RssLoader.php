@@ -17,6 +17,7 @@ class RssLoader implements LoaderInterface
     protected static $methodMapping = array(
         'guid'    => 'setFeedId',
         'pubDate' => 'setFeedDate'
+        
     );
 
     /**
@@ -62,9 +63,20 @@ class RssLoader implements LoaderInterface
                 'setFeed'.ucfirst($subElement->getName());
 
             if ($subElement->getName() == 'author') {
-                $item->setAuthor(array('email' => (string)$subElement));
+                $item->setFeedAuthor(array('name' => (string)$subElement));
+                
+            } else if($subElement->getName() == 'pubDate') {
+            	$date = new \DateTime();
+            	$item->setFeedDate($date);
+            	
+            } else if($subElement->getName() == 'link') {
+            	$routes = array();
+            	$routes[0] = array('url' => (string) $subElement);
+            	$item->setFeedRoutes($routes);
+            	
             } else if (count($subElement) === 0) {
                 $item->$method((string)$subElement);
+                
             } else {
                 $item->$method($this->extractParam($subElement));
             }

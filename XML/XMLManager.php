@@ -30,7 +30,7 @@ class XMLManager
         $node_text = $this->xml->createTextNode($content);
         $node->appendChild($node_text);
 
-        return $this;
+        return $node;
     }
 
     public function getFilename()

@@ -18,10 +18,23 @@ interface ItemInterface
 
     /*
      * Return the route of your item
-     * @return string|array with [0] => 'route_name', [1] => params
+     * @return array with 
+     * [0]
+     *      =>
+     *      	['route']
+     *      			=>
+     *          			[0] =>  'route_name'
+     *          			[1] =>  array of params of the route
+     *     	=>
+     *      	['other parameter'] => 'content' (you can use for atom)
+     * [1]
+     *     	=>
+     *     		['url'] => 'http://mywebsite.com'
+     *     	=>
+     *      	['other parameter'] => 'content' (you can use for atom)
      */
 
-    public function getFeedRoute();
+    public function getFeedRoutes();
 
     /**
      * @return unique identifiant (for editing)

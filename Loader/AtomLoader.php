@@ -12,7 +12,9 @@ namespace Nekland\FeedBundle\Loader;
 class AtomLoader implements LoaderInterface
 {
     protected static $methodMapping = array(
-        'updated' => 'setFeedDate'
+        'published' 	=> 'setFeedDate',
+        'contributor' 	=> 'setAtomContributors',
+        'content'		=> 'setFeedDescription'
     );
     
     /**
@@ -30,11 +32,11 @@ class AtomLoader implements LoaderInterface
         }
 
 
-        foreach ($xml->feed[0] as $xmlEntry) {
-            if ($xmlEntry->getName() != 'entry') {
-                $this->setParam($xmlEntry, $feed);
+        foreach ($xml->feed[0] as $xmlTag) {
+            if ($xmlTag->getName() != 'entry') {
+                $this->setParam($xmlTag, $feed);
             } else {
-                $this->addItem($xmlEntry, $feed);
+                $this->addItem($xmlTag, $feed);
             }
         }
 
@@ -56,13 +58,34 @@ class AtomLoader implements LoaderInterface
                     self::$methodMapping[$subElement->getName()] :
                     'setFeed' . ucfirst($subElement->getName());
 
-            if ($subElement->getName() == 'author') {
-                $author = array();
-                foreach($subElement as $authorElement) {
-                    $author[$authorElement->getName()] = (string) $authorElement;
+            if ($subElement->getName() == 'link') {
+            	
+            	if(($routes = $item->getFeedRoutes()) == null)
+                	$routes = array();
+            	
+            	$i = count($routes);
+            	
+                foreach($subElement->attributes() as $attrName => $attrValue) {
+                	if($attrName == 'href') {
+                		$routes[$i]['url'] = $attrValue;
+                	} else {
+                		$routes[$i][$attrName] = $attrValue;
+                	}
                 }
-                $item->setAuthor($author);
+                $item->setFeedRoutes($routes);
+            
             } else if (count($subElement) === 0) {
+            	
+            	if($subElement->getName() == 'content' || $subElement->getName() == 'title' || $subElement->getName() == 'summary') {
+            		$typemethod = 'setAtom' . $subElement->getName() . 'Type';
+            		
+            		$attributes = $subElement->attributes();
+            		if(isset($attributes['type']))
+            			$item->$typemethod($attributes['type']);
+            		if(isset($attributes['xml:lang']) && $subElement->getName() == 'content') {
+            			$item->setAtomContentLanguage($attributes['xml:lang']);
+            		}
+            	}
                 $item->$method((string)$subElement);
             } else {
                 $item->$method($this->extractParam($subElement));
@@ -70,6 +93,42 @@ class AtomLoader implements LoaderInterface
         }
 
         $feed->add($item);
+    }
+    
+    /**
+     * Set a feed param
+     *
+     * @param \SimpleXMLElement $element
+     * @param \Nekland\FeedBundle\Feed $feed
+     * @return void
+     */
+    protected function setParam(\SimpleXMLElement $element, Feed $feed)
+    {
+    	if (count($element) === 0) {
+    		$feed->set($element->getName(), (string)$element);
+    	} else {
+    		$feed->set($element->getName(), $this->extractParam($element));
+    	}
+    }
+    
+    /**
+     * Extract array params
+     *
+     * @param \SimpleXMLElement $element
+     * @return array
+     */
+    protected function extractParam(\SimpleXMLElement $element)
+    {
+    	$param = array();
+    	foreach ($element as $subElement) {
+    		if (count($subElement) === 0) {
+    			$param[$subElement->getName()] = (string)$subElement;
+    		} else {
+    			$param[$subElement->getName()] = $this->extractParam($subElement);
+    		}
+    	}
+    
+    	return $param;
     }
 
     /**

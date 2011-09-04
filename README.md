@@ -1,6 +1,13 @@
 FeedBundle
 ===========
 
+Version 1.1
+Changes:
+- in the configuration you need to defined an url, not a route. (Maybe another website ? You can type what you want)
+- the method getFeedRoute become getFeedRoutes in the ItemInterface (it's an array of routes). For more informations, see the ItemInterface or the wiki.
+- for naming your feeds you must add |format| (where you want in the filename)
+
+
 Version 1.0
 
 
@@ -76,6 +83,9 @@ If your controller extends the base Symfony controller, you can use
     $factory->load('my_feed', 'loader');
     $factory->get('my_feed')->add($post);
     
+### Read more at the wiki
+
+https://github.com/Nek-/FeedBundle/wiki
 
 Tests
 -----
@@ -87,7 +97,6 @@ NeklandFeedBundle is bundled with some behat flavoured tests. Install BehatBundl
 TODO
 ----
 
- * Atom
  * Annotation configuration
 
 Contributors :

@@ -10,7 +10,7 @@ use Nekland\FeedBundle\Item\ExtendedItemInterface;
  * @author Yohan Giarelli <yohan@giarelli.org>
  * @author Nek' <nek.dev@gmail.com>
  */
-class GenericItem implements ExtendedItemInterface
+class GenericItem implements ExtendedItemInterface, AtomItemInterface
 {
     protected
         $title,
@@ -22,8 +22,13 @@ class GenericItem implements ExtendedItemInterface
         $author,
         $commentRoute,
         $enclosure,
-        $route,
-        $summary
+        $routes,
+        $summary,
+        $titleType,
+        $contentType,
+        $summaryType,
+        $contributors,
+        $contentLanguage
     ;
 
     public function setFeedAuthor($author)
@@ -96,9 +101,9 @@ class GenericItem implements ExtendedItemInterface
         return $this->category;
     }
 
-    public function setFeedDate($date)
+    public function setFeedDate(\DateTime $date)
     {
-        $this->date = new \DateTime($date);
+        $this->date = $date;
     }
 
     public function getFeedDate()
@@ -116,13 +121,13 @@ class GenericItem implements ExtendedItemInterface
         return $this->link;
     }
 
-    public function setFeedRoute($route){
-        $this->route = $route;
+    public function setFeedRoutes(array $route){
+        $this->routes = $route;
     }
 
-    public function getFeedRoute()
+    public function getFeedRoutes()
     {
-        return '';
+        return $this->routes;
     }
 
     public function getFeedSummary() {
@@ -132,6 +137,44 @@ class GenericItem implements ExtendedItemInterface
     public function setFeedSummary($summary) {
         $this->summary = $summary;
     }
+    
+    public function getAtomTitleType() {
+    	return $this->titleType;
+    }
+    
+    public function setAtomTitleType($type) {
+    	$this->titleType = $type;
+    }
 
+    public function setAtomContentType($type) {
+    	$this->contentType =$type;
+    }
+    
+    public function getAtomContentType() {
+    	return $this->contentType;
+    }
+    
+    public function setAtomContributors(array $contributors) {
+    	$this->contributors = $contributors;
+    }
+    
+    public function getAtomContributors() {
+    	return $this->contributors;
+    }
+    
+    public function setAtomSummaryType($summary) {
+    	$this->summaryType = $summary;
+    }
+    
+    public function getAtomSummaryType() {
+    	return $this->summaryType;
+    }
 
+    public function getAtomContentLanguage() {
+    	return $this->contentLanguage;
+    }
+    
+    public function setAtomContentLanguage($lang) {
+    	$this->contentLanguage = $lang;
+    }
 }

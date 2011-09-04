@@ -72,15 +72,11 @@ class RssRenderer implements RendererInterface
 
         $xml->addTextNode('description', $feed->get('description'), $channel);
 
-        $xml->addTextNode('pubDate', $feed->get('pubDate', new \DateTime())->format(DateTime::RSS), $channel);
+        $xml->addTextNode('pubDate', $feed->get('pubDate', new \DateTime())->format(\DateTime::RSS), $channel);
         $date = new \DateTime();
-        $xml->addTextNode('lastBuildDate', $date->format(DateTime::RSS), $channel);
+        $xml->addTextNode('lastBuildDate', $date->format(\DateTime::RSS), $channel);
 
-        $xml->addTextNode('link', $this->router->generate(
-            $feed->get('route'),
-            $feed->get('route_parameters', array()),
-            true
-        ), $channel);
+        $xml->addTextNode('link', $feed->get('link'), $channel);
         $xml->addTextNode('title', $feed->get('title'), $channel);
         $xml->addTextNode('language', $feed->get('language'), $channel);
 
@@ -156,24 +152,24 @@ class RssRenderer implements RendererInterface
             throw new \InvalidArgumentException('The method « getFeedId » MUST return a not empty value.');
         $xml->addTextNode('guid', $id, $nodeItem);
 
-        $xml->addTextNode('description', $this->getRoute($item), $nodeItem);
+        $xml->addTextNode('link', $this->getRoute($item), $nodeItem);
 
-        $xml->addTextNode('pubDate', $item->getFeedDate()->format(DateTime::RSS), $nodeItem);
+        $xml->addTextNode('pubDate', $item->getFeedDate()->format(\DateTime::RSS), $nodeItem);
 
-        if ($this->itemHas($item, 'getAuthor')) {
+        if ($this->itemHas($item, 'getFeedAuthor')) {
             if ($author = $this->getAuthor($item)) {
-                $xml->addTextNode('author', $author, $nodeItem);
+                $xml->addTextNode('author', $author['name'], $nodeItem);
             }
         }
-        if ($this->itemHas($item, 'getCategory')) {
+        if ($this->itemHas($item, 'getFeedCategory')) {
             $xml->addTextNode('category', $item->getFeedCategory(), $nodeItem);
         }
-        if ($this->itemHas($item, 'getComments')) {
+        if ($this->itemHas($item, 'getFeedCommentRoute')) {
             if ($comments = $this->getComments($item)) {
                 $xml->addTextNode('comments', $comments, $nodeItem);
             }
         }
-        if ($this->itemHas($item, 'getEnclosure')) {
+        if ($this->itemHas($item, 'getFeedEnclosure')) {
             if ($enclosure = $this->getEnclosure($item, $xml)) {
                 $nodeItem->appendChild($enclosure);
             }
@@ -201,7 +197,7 @@ class RssRenderer implements RendererInterface
      * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
      * @return null
      */
-    private function getAuthor(ExtendedItemInterface $item)
+    private function getAuthor(ItemInterface $item)
     {
         $authorData = $item->getFeedAuthor();
         $author = '';
@@ -225,7 +221,7 @@ class RssRenderer implements RendererInterface
      * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
      * @return null|string
      */
-    private function getComments(ExtendedItemInterface $item)
+    private function getComments(ItemInterface $item)
     {
         $commentRoute = $item->getFeedCommentRoute();
         if (!$commentRoute) {
@@ -260,14 +256,21 @@ class RssRenderer implements RendererInterface
     }
 
     private function getRoute(ItemInterface $item) {
-        $route = $item->getFeedRoute();
+        $route = $item->getFeedRoutes();
+        //var_dump($item); exit();
+        //var_dump($route); exit();
+        if(!isset($route[0]) || !is_array($route[0])) {
+        	throw new \InvalidArgumentException('The « getFeedRoutes » method have to return an array of routes.');
+        }
+        $route = $route[0];
+        if(!empty($route['route']) && is_array($route['route'])) {
 
-        if(is_array($route)) {
+            return $this->router->generate($route['route'][0], $route['route'][1], true);
+        } else if(!empty($route['url'])) {
 
-            return $this->router->generate($route[0], $route[1], true);
+            return $route['url'];
         } else {
-
-            return $route;
+        	return null;
         }
     }
 

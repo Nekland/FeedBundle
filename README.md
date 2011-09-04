@@ -9,6 +9,7 @@ Changes:
 
 
 Version 1.0
+Warning: finally the new version (1.1) make substantial changes, but not in the code logic.
 
 
 Features

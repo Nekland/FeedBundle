@@ -138,7 +138,7 @@ class AtomRenderer implements RendererInterface {
 		$date = new \DateTime();
 		$xml->addTextNode('updated', $item->getFeedDate()->format(\DateTime::ATOM), $nodeItem);
 
-		if ($this->itemHas($item, 'getAuthor')) {
+		if ($this->itemHas($item, 'getFeedAuthor')) {
 			if ($author = $item->getFeedAuthor()) {
 				$authorNode = $this->createAuthor($xml, $author);
 				$nodeItem->appendChild($authorNode);

@@ -201,11 +201,11 @@ class RssRenderer implements RendererInterface
     {
         $authorData = $item->getFeedAuthor();
         $author = '';
-        if(isset($authorData['nickname'])) {
-            $author .= $authorData['nickname'];
+        if(isset($authorData['name'])) {
+            $author .= $authorData['name'];
         }
         if (isset($authorData['email'])) {
-            $author = empty($author) ? $authorData['email'] : ' ' . $authorData['email'];
+            $author .= empty($author) ? $authorData['email'] : ' ' . $authorData['email'];
         }
 
         if(!empty($author)) {

@@ -158,7 +158,7 @@ class RssRenderer implements RendererInterface
 
         if ($this->itemHas($item, 'getFeedAuthor')) {
             if ($author = $this->getAuthor($item)) {
-                $xml->addTextNode('author', $author['name'], $nodeItem);
+                $xml->addTextNode('author', $author, $nodeItem);
             }
         }
         if ($this->itemHas($item, 'getFeedCategory')) {

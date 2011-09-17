@@ -27,7 +27,12 @@ class XMLManager
         $node = $this->xml->createElement($nodeName);
         $node = $parentNode->appendChild($node);
 
-        $node_text = $this->xml->createTextNode($content);
+        if ($this->hasXMLSyntaxMarkers($content)) {
+            $node_text = $this->xml->createCDATASection($content);
+        } else {
+            $node_text = $this->xml->createTextNode($content);
+        }
+
         $node->appendChild($node_text);
 
         return $node;
@@ -51,5 +56,24 @@ class XMLManager
     public function save()
     {
         return $this->xml->save($this->filename);
+    }
+
+    /**
+     * Check if the content has any XML syntax markers that would result in
+     * invalid XML if inserted into an XML document. If it does, the content
+     * should either be wrapped in a CDATA section or have all of it's
+     * special XML characters converted into entities.
+     *
+     * @param string $content
+     * @return boolean
+     */
+    protected function hasXMLSyntaxMarkers($content)
+    {
+        foreach (array('<', '&') as $char) {
+            if (strpos($content, $char) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 }

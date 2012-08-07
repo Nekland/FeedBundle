@@ -20,7 +20,7 @@
               <argument type="service" id="service_container" />
           </call>
         </service>
-        
+
         <!-- Renderers -->
         <service id="nekland_feed.renderer.rss" class="%nekland_feed.renderer.rss.class%">
             <argument type="service" id="router" />
@@ -30,7 +30,7 @@
             <argument type="service" id="router" />
             <argument>%nekland_feed.feeds.base_path%</argument>
         </service>
-        
+
         <!-- Loaders -->
         <service id="nekland_feed.loader.rss_file" class="%nekland_feed.loader.rss_file.class%">
             <argument>%nekland_feed.feeds.base_path%</argument>

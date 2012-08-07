@@ -3,9 +3,10 @@ FeedBundle
 
 Version 1.1
 Changes:
-- in the configuration you need to defined an url, not a route. (Maybe another website ? You can type what you want)
-- the method getFeedRoute become getFeedRoutes in the ItemInterface (it's an array of routes). For more informations, see the ItemInterface or the wiki.
-- for naming your feeds you must add |format| (where you want in the filename)
+ * in the configuration you need to defined an url, not a route. (Maybe another website ? You can type what you want)
+ * the method getFeedRoute become getFeedRoutes in the ItemInterface (it's an array of routes).
+ For more informations, see the ItemInterface or the wiki.
+ * for naming your feeds you must add |format| (where you want in the filename)
 
 
 Version 1.0
@@ -55,7 +56,8 @@ Optional (default values):
 
 ### Models
 
-To use the NeklandFeedBundle, you must have class that implements the ItemInterface. In most of case, you can do it with your entities/documents
+To use the NeklandFeedBundle, you must have class that implements the ItemInterface. In most of case,
+you can do it with your entities/documents
 
     class Post implements ItemInterface
     {
@@ -83,7 +85,7 @@ If your controller extends the base Symfony controller, you can use
     /** @var $post My\MyBundle\Entity\Post */
     $factory->load('my_feed', 'loader');
     $factory->get('my_feed')->add($post);
-    
+
 ### Read more at the wiki
 
 https://github.com/Nek-/FeedBundle/wiki
@@ -99,7 +101,7 @@ TODO
 ----
 
  * Annotation configuration
- 
+
 Author :
 -------------
  * Nek <nek.dev+github@gmail.com> ( http://twitter.com/#!/Nekdev )
@@ -107,4 +109,4 @@ Author :
 Contributors :
 -------------
 
- * Yohan Giarelli <yohan@giarelli.org> 
+ * Yohan Giarelli <yohan@giarelli.org>

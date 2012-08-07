@@ -26,7 +26,7 @@ class AtomFileLoader extends AtomLoader implements FileLoaderInterface
 
             return parent::load($this->getContent($filename));
         } else {
-            
+
             return new \Nekland\FeedBundle\Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
         }
     }

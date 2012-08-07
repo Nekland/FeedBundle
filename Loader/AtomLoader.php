@@ -16,7 +16,7 @@ class AtomLoader implements LoaderInterface
         'contributor' 	=> 'setAtomContributors',
         'content'		=> 'setFeedDescription'
     );
-    
+
     /**
      * @throws \InvalidArgumentException
      * @param $feedContent
@@ -46,7 +46,7 @@ class AtomLoader implements LoaderInterface
     /**
      * Adds an Item to the feed
      *
-     * @param \SimpleXMLElement $element
+     * @param \SimpleXMLElement        $element
      * @param \Nekland\FeedBundle\Feed $feed
      * @return void
      */
@@ -59,33 +59,33 @@ class AtomLoader implements LoaderInterface
                     'setFeed' . ucfirst($subElement->getName());
 
             if ($subElement->getName() == 'link') {
-            	
-            	if(($routes = $item->getFeedRoutes()) == null)
-                	$routes = array();
-            	
-            	$i = count($routes);
-            	
+
+                if(($routes = $item->getFeedRoutes()) == null)
+                    $routes = array();
+
+                $i = count($routes);
+
                 foreach($subElement->attributes() as $attrName => $attrValue) {
-                	if($attrName == 'href') {
-                		$routes[$i]['url'] = $attrValue;
-                	} else {
-                		$routes[$i][$attrName] = $attrValue;
-                	}
+                    if($attrName == 'href') {
+                        $routes[$i]['url'] = $attrValue;
+                    } else {
+                        $routes[$i][$attrName] = $attrValue;
+                    }
                 }
                 $item->setFeedRoutes($routes);
-            
-            } else if (count($subElement) === 0) {
-            	
-            	if($subElement->getName() == 'content' || $subElement->getName() == 'title' || $subElement->getName() == 'summary') {
-            		$typemethod = 'setAtom' . $subElement->getName() . 'Type';
-            		
-            		$attributes = $subElement->attributes();
-            		if(isset($attributes['type']))
-            			$item->$typemethod($attributes['type']);
-            		if(isset($attributes['xml:lang']) && $subElement->getName() == 'content') {
-            			$item->setAtomContentLanguage($attributes['xml:lang']);
-            		}
-            	}
+
+            } elseif (count($subElement) === 0) {
+
+                if($subElement->getName() == 'content' || $subElement->getName() == 'title' || $subElement->getName() == 'summary') {
+                    $typemethod = 'setAtom' . $subElement->getName() . 'Type';
+
+                    $attributes = $subElement->attributes();
+                    if(isset($attributes['type']))
+                        $item->$typemethod($attributes['type']);
+                    if(isset($attributes['xml:lang']) && $subElement->getName() == 'content') {
+                        $item->setAtomContentLanguage($attributes['xml:lang']);
+                    }
+                }
                 $item->$method((string)$subElement);
             } else {
                 $item->$method($this->extractParam($subElement));
@@ -94,23 +94,23 @@ class AtomLoader implements LoaderInterface
 
         $feed->add($item);
     }
-    
+
     /**
      * Set a feed param
      *
-     * @param \SimpleXMLElement $element
+     * @param \SimpleXMLElement        $element
      * @param \Nekland\FeedBundle\Feed $feed
      * @return void
      */
     protected function setParam(\SimpleXMLElement $element, Feed $feed)
     {
-    	if (count($element) === 0) {
-    		$feed->set($element->getName(), (string)$element);
-    	} else {
-    		$feed->set($element->getName(), $this->extractParam($element));
-    	}
+        if (count($element) === 0) {
+            $feed->set($element->getName(), (string)$element);
+        } else {
+            $feed->set($element->getName(), $this->extractParam($element));
+        }
     }
-    
+
     /**
      * Extract array params
      *
@@ -119,16 +119,16 @@ class AtomLoader implements LoaderInterface
      */
     protected function extractParam(\SimpleXMLElement $element)
     {
-    	$param = array();
-    	foreach ($element as $subElement) {
-    		if (count($subElement) === 0) {
-    			$param[$subElement->getName()] = (string)$subElement;
-    		} else {
-    			$param[$subElement->getName()] = $this->extractParam($subElement);
-    		}
-    	}
-    
-    	return $param;
+        $param = array();
+        foreach ($element as $subElement) {
+            if (count($subElement) === 0) {
+                $param[$subElement->getName()] = (string)$subElement;
+            } else {
+                $param[$subElement->getName()] = $this->extractParam($subElement);
+            }
+        }
+
+        return $param;
     }
 
     /**

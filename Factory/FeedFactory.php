@@ -29,11 +29,17 @@ class FeedFactory extends ContainerAware
      */
     protected $config;
 
+    /**
+     * @param array $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @param array $config
+     */
     public function setConfig(array $config)
     {
         $this->config = $config;
@@ -53,7 +59,8 @@ class FeedFactory extends ContainerAware
      *
      * @param $feed
      * @param $renderer
-     * @return
+     *
+     * @return string
      */
     public function render($feed, $rendererName='rss')
     {
@@ -88,16 +95,17 @@ class FeedFactory extends ContainerAware
         if(!$this->has($feed)) {
             throw new \InvalidArgumentException('The required feed is not defined. Check your configuration.');
         }
-        
+
         if(!isset($this->feeds[$feed])) {
             $this->feeds[$feed] = new Feed($this->config['feeds'][$feed]);
         }
-        
+
         return $this->feeds[$feed];
     }
 
     /**
      * @param $name
+     *
      * @return RendererInterface
      */
     protected function getRenderer($name)

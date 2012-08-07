@@ -43,14 +43,14 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('subtitle')->end()
                             ->scalarNode('icon')->end()
                             ->arrayNode('image')
-                            	->children()
-                            		->scalarNode('url')->isRequired()->end()
-                            		->scalarNode('title')->isRequired()->end()
-                            		->scalarNode('link')->isRequired()->end()
-                            		->scalarNode('width')->end()
-                            		->scalarNode('height')->end()
-                            		->scalarNode('description')->end()
-                            	->end()
+                                ->children()
+                                    ->scalarNode('url')->isRequired()->end()
+                                    ->scalarNode('title')->isRequired()->end()
+                                    ->scalarNode('link')->isRequired()->end()
+                                    ->scalarNode('width')->end()
+                                    ->scalarNode('height')->end()
+                                    ->scalarNode('description')->end()
+                                ->end()
                             ->end()
                         ->end()
                     ->end()
@@ -61,7 +61,7 @@ class Configuration implements ConfigurationInterface
                             'id' => 'nekland_feed.renderer.rss'
                         ),
                         'atom' => array(
-                        	'id' => 'nekland_feed.renderer.atom'
+                            'id' => 'nekland_feed.renderer.atom'
                         )
                     ))
                     ->useAttributeAsKey('name')

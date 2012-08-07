@@ -20,5 +20,5 @@ class NeklandFeedExtension extends Extension
 
         $container->setParameter('nekland_feed.factory.config', $config);
     }
-    
+
 }

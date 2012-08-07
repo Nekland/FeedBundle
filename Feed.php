@@ -2,14 +2,13 @@
 
 namespace Nekland\FeedBundle;
 
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 use Nekland\FeedBundle\Item\ItemInterface;
 use Nekland\FeedBundle\Item\GenericItem;
 
 /**
  * @throws \InvalidArgumentException
- * 
+ *
  * @author Nek' <nek.dev+github@gmail.com>
  * @author Yohan Giarelli <yohan@giarelli.org>
  */
@@ -18,10 +17,16 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Config example:
-     * 'class' => 'Nekland\BlogBundle\Entity\Article' (who must implement FeedBundle\Item\RssItem)
-     * 'title' => 'My Rss title'
-     * 'description' => 'My Rss description'
-     * 'route' => 'My Rss site route' (home if not defined)
+     *
+     * ```php
+     *  <php [
+     *      'class'       => 'Nekland\BlogBundle\Entity\Article', // (who must implement FeedBundle\Item\RssItem)
+     *      'title'       => 'My Rss title',
+     *      'description' => 'My Rss description',
+     *      'route'       => 'My Rss site route',                 //(home if not defined)
+     *  ]
+     * ```
+     *
      * @var array $config
      */
     protected $config;
@@ -31,6 +36,9 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
      */
     protected $items;
 
+    /**
+     * @param array $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -84,7 +92,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Replace an Item by an other
-     * 
+     *
      * @throws \InvalidArgumentException
      * @param $id
      * @param ItemInterface $newItem
@@ -161,7 +169,7 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Retrieve an external iterator
-     * @return Iterator
+     * @return \Iterator
      */
     public function getIterator()
     {
@@ -200,6 +208,9 @@ class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
     }
 
 
+    /**
+     * @param $offset
+     */
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);

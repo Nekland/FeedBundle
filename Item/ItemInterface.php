@@ -18,7 +18,7 @@ interface ItemInterface
 
     /*
      * Return the route of your item
-     * @return array with 
+     * @return array with
      * [0]
      *      =>
      *      	['route']

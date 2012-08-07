@@ -58,7 +58,7 @@ class RssRenderer implements RendererInterface
      * Build the feed properties
      *
      * @param \Nekland\FeedBundle\XML\XMLManager $xml
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\FeedBundle\Feed           $feed
      * @return void
      */
     private function init(XMLManager $xml, Feed $feed)
@@ -124,7 +124,7 @@ class RssRenderer implements RendererInterface
      * Write Feed Items
      *
      * @param \Nekland\FeedBundle\XML\XMLManager $xml
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\FeedBundle\Feed           $feed
      * @return void
      */
     private function writeItems(XMLManager $xml, Feed $feed)
@@ -136,8 +136,8 @@ class RssRenderer implements RendererInterface
 
     /**
      * Write an ItemInterface into the feed
-     * 
-     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     *
+     * @param \Nekland\FeedBundle\XML\XMLManager     $xml
      * @param \Nekland\FeedBundle\Item\ItemInterface $item
      * @return void
      */
@@ -226,7 +226,7 @@ class RssRenderer implements RendererInterface
         $commentRoute = $item->getFeedCommentRoute();
         if (!$commentRoute) {
             return null;
-        } else if (is_array($commentRoute)) {
+        } elseif (is_array($commentRoute)) {
             return $this->router->generate($commentRoute[0], $commentRoute[1]);
         } else {
             return $this->router->generate($commentRoute);
@@ -237,7 +237,7 @@ class RssRenderer implements RendererInterface
      * Extract enclosure
      *
      * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
-     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\FeedBundle\XML\XMLManager             $xml
      * @return \DOMElement|null
      */
     private function getEnclosure(ExtendedItemInterface $item, XMLManager $xml)
@@ -260,7 +260,7 @@ class RssRenderer implements RendererInterface
         //var_dump($item); exit();
         //var_dump($route); exit();
         if(!isset($route[0]) || !is_array($route[0])) {
-        	throw new \InvalidArgumentException('The « getFeedRoutes » method have to return an array of routes.');
+            throw new \InvalidArgumentException('The « getFeedRoutes » method have to return an array of routes.');
         }
         $route = $route[0];
         if(!empty($route['route']) && is_array($route['route'])) {
@@ -270,7 +270,7 @@ class RssRenderer implements RendererInterface
 
             return $route['url'];
         } else {
-        	return null;
+            return null;
         }
     }
 

@@ -13,7 +13,7 @@ interface RendererInterface
      * @abstract
      * @param Feed $feed
      * @param $filename
-     * @return void
+     * @return string
      */
     public function render(Feed $feed);
 }

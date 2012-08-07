@@ -54,7 +54,7 @@ class FeatureContext extends BehatContext
      * @var string
      */
     protected $xml;
-    
+
     /**
      * @Given /^I know the container$/
      */

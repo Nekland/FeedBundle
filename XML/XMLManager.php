@@ -74,6 +74,7 @@ class XMLManager
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -17,7 +17,7 @@ class RssLoader implements LoaderInterface
     protected static $methodMapping = array(
         'guid'    => 'setFeedId',
         'pubDate' => 'setFeedDate'
-        
+
     );
 
     /**
@@ -29,12 +29,12 @@ class RssLoader implements LoaderInterface
     {
         $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
         $xml = simplexml_load_string($feedContent);
-        
+
         if (false === $xml) {
             throw new \InvalidArgumentException('The given data is not a valid XML string.');
         }
 
-        
+
 
         foreach ($xml->channel[0] as $xmlItem) {
             if ($xmlItem->getName() != 'item') {
@@ -50,7 +50,7 @@ class RssLoader implements LoaderInterface
     /**
      * Adds an Item to the feed
      *
-     * @param \SimpleXMLElement $element
+     * @param \SimpleXMLElement        $element
      * @param \Nekland\FeedBundle\Feed $feed
      * @return void
      */
@@ -64,19 +64,19 @@ class RssLoader implements LoaderInterface
 
             if ($subElement->getName() == 'author') {
                 $item->setFeedAuthor(array('name' => (string)$subElement));
-                
+
             } else if($subElement->getName() == 'pubDate') {
-            	$date = new \DateTime();
-            	$item->setFeedDate($date);
-            	
+                $date = new \DateTime();
+                $item->setFeedDate($date);
+
             } else if($subElement->getName() == 'link') {
-            	$routes = array();
-            	$routes[0] = array('url' => (string) $subElement);
-            	$item->setFeedRoutes($routes);
-            	
-            } else if (count($subElement) === 0) {
+                $routes = array();
+                $routes[0] = array('url' => (string) $subElement);
+                $item->setFeedRoutes($routes);
+
+            } elseif (count($subElement) === 0) {
                 $item->$method((string)$subElement);
-                
+
             } else {
                 $item->$method($this->extractParam($subElement));
             }
@@ -88,7 +88,7 @@ class RssLoader implements LoaderInterface
     /**
      * Set a feed param
      *
-     * @param \SimpleXMLElement $element
+     * @param \SimpleXMLElement        $element
      * @param \Nekland\FeedBundle\Feed $feed
      * @return void
      */

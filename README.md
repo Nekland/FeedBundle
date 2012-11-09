@@ -1,6 +1,11 @@
 FeedBundle
 ===========
 
+Version 1.2
+Changes:
+ * adapted for Symfony2.1.
+ * support of composer.json
+
 Version 1.1
 Changes:
  * in the configuration you need to defined an url, not a route. (Maybe another website ? You can type what you want)
@@ -21,6 +26,61 @@ Features
  * support edit of feeds
  * extendable
  * On-the-fly and at-save feed generation
+
+Installation
+============
+
+Add FeedBundle to your src/ dir
+-------------------------------------
+
+Through submodules:
+~~~~~~~~~~~~~~~~~~~
+
+
+::
+
+    $ git submodule add git://github.com/Nek-/FeedBundle.git vendor/bundles/Nekland/Bundle/FeedBundle
+
+
+Through composer:
+~~~~~~~~~~~~~~~~~
+
+::
+
+    "require": {
+        ...
+        "nekland/feed-bundle": "*"
+        ...
+    }
+
+
+Add the FOS namespace to your autoloader (if you don't use composer.phar)
+-------------------------------------------------------------------------
+
+::
+
+    // app/autoload.php
+
+    $loader->registerNamespaces(array(
+        'Nekland' => __DIR__.'/../vendor/bundles',
+        // your other namespaces
+    );
+
+Add FeedBundle to your application kernel (also for composer.phar)
+------------------------------------------------------------------
+
+::
+
+    // app/AppKernel.php
+
+    public function registerBundles()
+    {
+        return array(
+            // ...
+            new Nekland\Bundle\FeedBundle\NeklandFeedBundle(),
+            // ...
+        );
+    }
 
 Configuration
 -------------
@@ -66,8 +126,9 @@ you can do it with your entities/documents
     .....
     }
 
-Usage
------
+Basic usage
+-----------
+-----------
 
 ### Retrieve your feed instance
 

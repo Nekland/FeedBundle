@@ -1,16 +1,17 @@
 <?php
 
-namespace Nekland\FeedBundle;
+namespace Nekland\Bundle\FeedBundle;
 
 
-use Nekland\FeedBundle\Item\ItemInterface;
-use Nekland\FeedBundle\Item\GenericItem;
+use Nekland\Bundle\FeedBundle\Item\ItemInterface;
+use Nekland\Bundle\FeedBundle\Item\GenericItem;
 
 /**
  * @throws \InvalidArgumentException
  *
  * @author Nek' <nek.dev+github@gmail.com>
  * @author Yohan Giarelli <yohan@giarelli.org>
+ * @author remontees <remontees@free.fr>
  */
 class Feed implements \ArrayAccess, \Countable, \IteratorAggregate
 {

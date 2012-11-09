@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle;
+namespace Nekland\Bundle\FeedBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

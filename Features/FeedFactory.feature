@@ -18,4 +18,4 @@ Feature: NeklandFeedBundle FeedFactory
       When I call the has method for "bar"
       And I try to get the feed "bar"
       Then The has method should return "true"
-      Then I should get an instance of "Nekland\FeedBundle\Feed"
+      Then I should get an instance of "Nekland\Bundle\FeedBundle\Feed"

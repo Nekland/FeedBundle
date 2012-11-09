@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle\Loader;
+namespace Nekland\Bundle\FeedBundle\Loader;
 
 /**
  * Loads Atom-XML and build a Feed object
@@ -8,6 +8,7 @@ namespace Nekland\FeedBundle\Loader;
  * @throws \InvalidArgumentException
  * @author Yohan Giarelli <yohan@giarelli.org>
  * @author Nek' <nek.dev+github@gmail.com>
+ * @author remontees <remontees@free.fr>
  */
 class AtomLoader implements LoaderInterface
 {
@@ -20,11 +21,11 @@ class AtomLoader implements LoaderInterface
     /**
      * @throws \InvalidArgumentException
      * @param $feedContent
-     * @return \Nekland\FeedBundle\Feed
+     * @return \Nekland\Bundle\FeedBundle\Feed
      */
     public function load($feedContent)
     {
-        $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        $feed = new Feed(array('class' => 'Nekland\\Bundle\\FeedBundle\\Item\\GenericItem'));
         $xml = simplexml_load_string($feedContent);
 
         if (false === $xml) {
@@ -47,7 +48,7 @@ class AtomLoader implements LoaderInterface
      * Adds an Item to the feed
      *
      * @param \SimpleXMLElement        $element
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\Bundle\FeedBundle\Feed $feed
      * @return void
      */
     protected function addItem(\SimpleXMLElement $element, Feed $feed)
@@ -99,7 +100,7 @@ class AtomLoader implements LoaderInterface
      * Set a feed param
      *
      * @param \SimpleXMLElement        $element
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\Bundle\FeedBundle\Feed $feed
      * @return void
      */
     protected function setParam(\SimpleXMLElement $element, Feed $feed)

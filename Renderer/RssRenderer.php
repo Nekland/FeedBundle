@@ -1,13 +1,13 @@
 <?php
 
-namespace Nekland\FeedBundle\Renderer;
+namespace Nekland\Bundle\FeedBundle\Renderer;
 
 use Symfony\Component\Routing\Router;
 
-use Nekland\FeedBundle\XML\XMLManager;
-use Nekland\FeedBundle\Feed;
-use Nekland\FeedBundle\Item\ItemInterface;
-use Nekland\FeedBundle\Item\ExtendedItemInterface;
+use Nekland\Bundle\FeedBundle\XML\XMLManager;
+use Nekland\Bundle\FeedBundle\Feed;
+use Nekland\Bundle\FeedBundle\Item\ItemInterface;
+use Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface;
 
 /**
  * This class render an xml file
@@ -15,6 +15,7 @@ use Nekland\FeedBundle\Item\ExtendedItemInterface;
  *
  * @author Nek' <nek.dev+github@gmail.com>
  * @author Yohan Giarelli <yohan@giarelli.org>
+ * @author remontees <remontees@free.fr>
  */
 
 class RssRenderer implements RendererInterface
@@ -38,7 +39,7 @@ class RssRenderer implements RendererInterface
     /**
      * Renders the feed
      *
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\Bundle\FeedBundle\Feed $feed
      * @return void
      */
     public function render(Feed $feed)
@@ -57,8 +58,8 @@ class RssRenderer implements RendererInterface
     /**
      * Build the feed properties
      *
-     * @param \Nekland\FeedBundle\XML\XMLManager $xml
-     * @param \Nekland\FeedBundle\Feed           $feed
+     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\Bundle\FeedBundle\Feed           $feed
      * @return void
      */
     private function init(XMLManager $xml, Feed $feed)
@@ -123,8 +124,8 @@ class RssRenderer implements RendererInterface
     /**
      * Write Feed Items
      *
-     * @param \Nekland\FeedBundle\XML\XMLManager $xml
-     * @param \Nekland\FeedBundle\Feed           $feed
+     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\Bundle\FeedBundle\Feed           $feed
      * @return void
      */
     private function writeItems(XMLManager $xml, Feed $feed)
@@ -137,8 +138,8 @@ class RssRenderer implements RendererInterface
     /**
      * Write an ItemInterface into the feed
      *
-     * @param \Nekland\FeedBundle\XML\XMLManager     $xml
-     * @param \Nekland\FeedBundle\Item\ItemInterface $item
+     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager     $xml
+     * @param \Nekland\Bundle\FeedBundle\Item\ItemInterface $item
      * @return void
      */
     private function writeItem(XMLManager $xml, ItemInterface $item)
@@ -179,7 +180,7 @@ class RssRenderer implements RendererInterface
     /**
      * Create an Item node
      *
-     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager $xml
      * @return \DOMElement
      */
     private function createItem(XMLManager $xml)
@@ -194,7 +195,7 @@ class RssRenderer implements RendererInterface
     /**
      * Extract the author email
      *
-     * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
+     * @param \Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface $item
      * @return string|null
      */
     private function getAuthor(ItemInterface $item)
@@ -218,7 +219,7 @@ class RssRenderer implements RendererInterface
     /**
      * Extracts the Comments URI
      *
-     * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
+     * @param \Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface $item
      * @return null|string
      */
     private function getComments(ItemInterface $item)
@@ -236,8 +237,8 @@ class RssRenderer implements RendererInterface
     /**
      * Extract enclosure
      *
-     * @param \Nekland\FeedBundle\Item\ExtendedItemInterface $item
-     * @param \Nekland\FeedBundle\XML\XMLManager             $xml
+     * @param \Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface $item
+     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager             $xml
      * @return \DOMElement|null
      */
     private function getEnclosure(ExtendedItemInterface $item, XMLManager $xml)

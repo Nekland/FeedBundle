@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle\DependencyInjection;
+namespace Nekland\Bundle\FeedBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

@@ -1,6 +1,8 @@
 <?php
 
-namespace Nekland\FeedBundle\Loader;
+namespace Nekland\Bundle\FeedBundle\Loader;
+
+use Nekland\Bundle\FeedBundle\Feed;
 
 /**
  * Loads an RSS file
@@ -24,7 +26,7 @@ class RssFileLoader extends RssLoader implements FileLoaderInterface
             return parent::load($this->getContent($filename));
         } else {
 
-            return new \Nekland\FeedBundle\Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+            return new Feed(array('class' => 'Nekland\\Bundle\\FeedBundle\\Item\\GenericItem'));
         }
     }
 

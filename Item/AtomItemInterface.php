@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle\Item;
+namespace use Nekland\Bundle\FeedBundle\Feed;\Item;
 
 /**
  * Interface for Item that manage Atom-specific attributes

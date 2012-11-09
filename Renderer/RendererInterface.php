@@ -1,8 +1,8 @@
 <?php
 
-namespace Nekland\FeedBundle\Renderer;
+namespace Nekland\Bundle\FeedBundle\Renderer;
 
-use Nekland\FeedBundle\Feed;
+use Nekland\Bundle\FeedBundle\Feed;
 
 /**
  * Base of feed renderer

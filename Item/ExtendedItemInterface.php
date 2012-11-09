@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle\Item;
+namespace use Nekland\Bundle\FeedBundle\Feed;\Item;
 
 interface ExtendedItemInterface extends ItemInterface
 {

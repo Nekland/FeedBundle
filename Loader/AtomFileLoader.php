@@ -1,11 +1,12 @@
 <?php
 
-namespace Nekland\FeedBundle\Loader;
+namespace Nekland\Bundle\FeedBundle\Loader;
 
 /**
  * Loads an Atom file
  * @author <yohan@giarelli.org>
  * @author Nek' <nek.dev+github@gmail.com>
+ * @author remontees <remontees@free.fr>
  */
 class AtomFileLoader extends AtomLoader implements FileLoaderInterface
 {
@@ -17,7 +18,7 @@ class AtomFileLoader extends AtomLoader implements FileLoaderInterface
     }
 
     /**
-     * @see Nekland\FeedBundle\Loader.RssLoader::load()
+     * @see Nekland\Bundle\FeedBundle\Loader.RssLoader::load()
      */
     public function load($filename)
     {

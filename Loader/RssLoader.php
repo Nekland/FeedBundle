@@ -1,9 +1,9 @@
 <?php
 
-namespace Nekland\FeedBundle\Loader;
+namespace Nekland\Bundle\FeedBundle\Loader;
 
-use Nekland\FeedBundle\Feed;
-use Nekland\FeedBundle\Item\GenericItem;
+use Nekland\Bundle\FeedBundle\Feed;
+use Nekland\Bundle\FeedBundle\Item\GenericItem;
 
 /**
  * Loads RSS-XML and build a Feed object
@@ -23,11 +23,11 @@ class RssLoader implements LoaderInterface
     /**
      * @throws \InvalidArgumentException
      * @param $feedContent
-     * @return \Nekland\FeedBundle\Feed
+     * @return \Nekland\Bundle\FeedBundle\Feed
      */
     public function load($feedContent)
     {
-        $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        $feed = new Feed(array('class' => 'Nekland\\Bundle\\FeedBundle\\Item\\GenericItem'));
         $xml = simplexml_load_string($feedContent);
 
         if (false === $xml) {
@@ -51,7 +51,7 @@ class RssLoader implements LoaderInterface
      * Adds an Item to the feed
      *
      * @param \SimpleXMLElement        $element
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\Bundle\FeedBundle\Feed $feed
      * @return void
      */
     protected function addItem(\SimpleXMLElement $element, Feed $feed)
@@ -89,7 +89,7 @@ class RssLoader implements LoaderInterface
      * Set a feed param
      *
      * @param \SimpleXMLElement        $element
-     * @param \Nekland\FeedBundle\Feed $feed
+     * @param \Nekland\Bundle\FeedBundle\Feed $feed
      * @return void
      */
     protected function setParam(\SimpleXMLElement $element, Feed $feed)

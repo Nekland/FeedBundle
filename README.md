@@ -33,14 +33,16 @@ Configuration
                 class:        My\MyBundle\Entity\Post
                 title:       'My fabulous posts'
                 description: 'Here is my very fabulous posts'
-                route:       'my_posts'
+                url:       'my_posts'
                 language:    'fr'
+                filename: "blog.|format|"
             my_feed2:
                 class:        My\MyBundle\Entity\Comment
                 title:       'My fabulous comments'
                 description: 'Here is my very fabulous comments'
-                route:       'my_posts_comments'
+                url:       'my_posts_comments'
                 language:    'fr'
+                filename: "blog.|format|"
 
 Optional (default values):
 
@@ -110,3 +112,4 @@ Contributors :
 -------------
 
  * Yohan Giarelli <yohan@giarelli.org>
+ * remontees <remontees@free.fr>

@@ -1,0 +1,32 @@
+{
+    "name": "nekland/feed-bundle",
+    "type": "symfony-bundle",
+    "description": "Provides xml feeds in ATOM using XML and Doctrine Entities.",
+    "keywords": ["symfony", "feed", "xml", "atom"],
+    "homepage": "https://github.com/Nek-/FeedBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxime Veber",
+            "email": "nek.dev+github@gmail.com",
+            "homepage": "http://www.nekland.fr"
+        },
+        {
+            "name": "Nekland Community",
+            "homepage": "https://github.com/Nek-/FeedBundle/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/twig-bundle": "2.1.*"
+    },
+    "suggest": {
+        "doctrine/doctrine-bundle": "dev-master",
+        "doctrine/mongodb-odm-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Nekland\\FeedBundle": "" }
+    },
+    "target-dir": "Nekland/Bundle/FeedBundle"
+}

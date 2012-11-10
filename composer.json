@@ -1,0 +1,38 @@
+{
+    "version":      "2.0.0",
+    "name":         "nekland/feed-bundle",
+    "type":         "symfony-bundle",
+
+    "description":  "Feed manager integration for symfony",
+    "keywords":     ["symfony", "feed", "xml", "atom"],
+    "homepage":     "https://github.com/Nek-/FeedBundle",
+
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Maxime Veber",
+            "email": "nek.dev+github@gmail.com",
+            "homepage": "http://www.nekland.fr"
+        },
+        {
+            "name": "Yohan GIARELLI",
+            "email": "yohan@giarel.li",
+            "homepage": "http://yohan.giarel.li"
+        },
+        {
+            "name": "Nekland Community",
+            "homepage": "https://github.com/Nek-/FeedBundle/contributors"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.2"
+    },
+
+    "autoload": {
+        "psr-0": { "Nekland\\Bundle\\FeedBundle": "" }
+    },
+
+    "target-dir": "Nekland/Bundle/FeedBundle"
+}

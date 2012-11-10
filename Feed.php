@@ -9,6 +9,9 @@ use Nekland\Bundle\FeedBundle\Item\GenericItem;
 /**
  * @throws \InvalidArgumentException
  *
+ * This class represent the information flux.
+ * That's why you can use it like an array, iterate on it...
+ *
  * @author Nek' <nek.dev+github@gmail.com>
  * @author Yohan Giarelli <yohan@giarelli.org>
  */

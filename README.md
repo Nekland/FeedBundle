@@ -1,6 +1,13 @@
 FeedBundle
 ===========
 
+Version 2.0
+Changes:
+ * Tested for Symfony 2.1
+ * Added composer support
+ * Namespace changed
+ * (versioning change)
+
 Version 1.1
 Changes:
  * in the configuration you need to defined an url, not a route. (Maybe another website ? You can type what you want)

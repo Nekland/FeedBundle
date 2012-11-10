@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle\Loader;
+namespace Nekland\Bundle\FeedBundle\Loader;
 
 /**
  * Loads an Atom file
@@ -17,7 +17,7 @@ class AtomFileLoader extends AtomLoader implements FileLoaderInterface
     }
 
     /**
-     * @see Nekland\FeedBundle\Loader.RssLoader::load()
+     * @see Nekland\Bundle\FeedBundle\Loader.RssLoader::load()
      */
     public function load($filename)
     {
@@ -27,7 +27,7 @@ class AtomFileLoader extends AtomLoader implements FileLoaderInterface
             return parent::load($this->getContent($filename));
         } else {
 
-            return new \Nekland\FeedBundle\Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+            return new \Nekland\Bundle\FeedBundle\Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\FeedBundle\DependencyInjection;
+namespace Nekland\Bundle\FeedBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

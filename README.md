@@ -29,6 +29,11 @@ Features
  * extensible
  * On-the-fly and at-save feed generation
 
+Read about configuration and more on the wiki
+---------------------------------------------
+
+https://github.com/Nek-/FeedBundle/wiki
+
 Configuration
 -------------
 
@@ -101,9 +106,8 @@ If your controller extends the base Symfony controller, you can use
     $factory->load('my_feed', 'loader');
     $factory->get('my_feed')->add($post);
 ```
-### Read more at the wiki
 
-https://github.com/Nek-/FeedBundle/wiki
+
 
 Tests
 -----

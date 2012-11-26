@@ -9,7 +9,7 @@
         <parameter key="nekland_feed.renderer.rss.class">Nekland\Bundle\FeedBundle\Renderer\RssRenderer</parameter>
         <parameter key="nekland_feed.renderer.atom.class">Nekland\Bundle\FeedBundle\Renderer\AtomRenderer</parameter>
         <parameter key="nekland_feed.loader.atom_file.class">Nekland\Bundle\FeedBundle\Loader\AtomFileLoader</parameter>
-        <parameter key="nekland_feed.loader.rss_file.class">Nekland\\BundleFeedBundle\Loader\RssFileLoader</parameter>
+        <parameter key="nekland_feed.loader.rss_file.class">Nekland\BundleFeedBundle\Loader\RssFileLoader</parameter>
         <parameter key="nekland_feed.feeds.base_path">%kernel.root_dir%/../web/feeds</parameter>
     </parameters>
 

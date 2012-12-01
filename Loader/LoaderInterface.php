@@ -13,7 +13,7 @@ interface LoaderInterface
 {
     /**
      * @abstract
-     * @param $filename
+     * @param $feedContent
      * @return Feed
      */
     public function load($feedContent);

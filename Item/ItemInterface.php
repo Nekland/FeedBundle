@@ -11,7 +11,7 @@ interface ItemInterface
     public function getFeedTitle();
 
     /*
-     * Return the description of your rss, someting like "This is the rss of my blog about foo and bar"
+     * Return the description of your rss, something like "This is the rss of my blog about foo and bar"
      * @return string
      */
     public function getFeedDescription();
@@ -37,7 +37,7 @@ interface ItemInterface
     public function getFeedRoutes();
 
     /**
-     * @return unique identifiant (for editing)
+     * @return unique identifier (for editing)
      */
     public function getFeedId();
 

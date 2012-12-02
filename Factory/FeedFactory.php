@@ -58,7 +58,7 @@ class FeedFactory extends ContainerAware
      * Renders a feed
      *
      * @param $feed
-     * @param $renderer
+     * @param $rendererName
      *
      * @return string
      */
@@ -73,7 +73,7 @@ class FeedFactory extends ContainerAware
      * Loads a feed
      *
      * @param $feedName
-     * @param $loader
+     * @param $loaderName
      * @return Feed
      */
     public function load($feedName, $loaderName = 'rss_file')

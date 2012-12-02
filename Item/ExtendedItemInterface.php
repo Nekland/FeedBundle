@@ -5,7 +5,7 @@ namespace Nekland\Bundle\FeedBundle\Item;
 interface ExtendedItemInterface extends ItemInterface
 {
     /**
-     * Somethink like array('name' => 'foo', 'email' => 'foo@bar.com', 'website' => 'http://foo.bar.com')
+     * Something like array('name' => 'foo', 'email' => 'foo@bar.com', 'website' => 'http://foo.bar.com')
      *
      * @return array
      */

@@ -215,15 +215,15 @@ class AtomRenderer implements RendererInterface {
         $contributorNode = $xml->getXml()->createElement('contributor');
 
         if(isset($author['name'])) {
-            $xml->addTextNode('name', $contributor['name'], $authorNode);
+            $xml->addTextNode('name', $contributor['name'], $contributorNode);
         }
 
         if(isset($author['website'])) {
-            $xml->addTextNode('uri', $contributor['website'], $authorNode);
+            $xml->addTextNode('uri', $contributor['website'], $contributorNode);
         }
 
         if(isset($author['email'])) {
-            $xml->addTextNode('email', $contributor['email'], $authorNode);
+            $xml->addTextNode('email', $contributor['email'], $contributorNode);
         }
 
         return $contributorNode;

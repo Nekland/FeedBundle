@@ -1,6 +1,6 @@
 {
     "version":      "2.0.0",
-    "name":         "nekland/feed-bundle",
+    "name":         "brainwasher/feed-bundle",
     "type":         "symfony-bundle",
 
     "description":  "Feed manager integration for symfony",

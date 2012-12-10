@@ -2,6 +2,9 @@
 
 namespace Nekland\Bundle\FeedBundle\Loader;
 
+use Nekland\Bundle\FeedBundle\Feed;
+use Nekland\Bundle\FeedBundle\Item\GenericItem;
+
 /**
  * Loads Atom-XML and build a Feed object
  *

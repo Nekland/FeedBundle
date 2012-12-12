@@ -27,7 +27,7 @@ class RssLoader implements LoaderInterface
      */
     public function load($feedContent)
     {
-        $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        $feed = new Feed(array('class' => 'Nekland\\Bundle\\FeedBundle\\Item\\GenericItem'));
         $xml = simplexml_load_string($feedContent);
 
         if (false === $xml) {
@@ -66,7 +66,7 @@ class RssLoader implements LoaderInterface
                 $item->setFeedAuthor(array('name' => (string)$subElement));
 
             } else if($subElement->getName() == 'pubDate') {
-                $date = new \DateTime();
+                $date = \DateTime::createFromFormat(\DateTime::RSS, (string) $subElement);
                 $item->setFeedDate($date);
 
             } else if($subElement->getName() == 'link') {

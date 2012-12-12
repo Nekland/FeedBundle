@@ -17,7 +17,8 @@ class AtomLoader implements LoaderInterface
     protected static $methodMapping = array(
         'published' 	=> 'setFeedDate',
         'contributor' 	=> 'setAtomContributors',
-        'content'		=> 'setFeedDescription'
+        'content'		=> 'setFeedDescription',
+        'link'          => 'setFeedRoutes'
     );
 
     /**
@@ -27,7 +28,7 @@ class AtomLoader implements LoaderInterface
      */
     public function load($feedContent)
     {
-        $feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        $feed = new Feed(array('class' => 'Nekland\\Bundle\\FeedBundle\\Item\\GenericItem'));
         $xml = simplexml_load_string($feedContent);
 
         if (false === $xml) {
@@ -35,7 +36,7 @@ class AtomLoader implements LoaderInterface
         }
 
 
-        foreach ($xml->feed[0] as $xmlTag) {
+        foreach ($xml->children() as $xmlTag) {
             if ($xmlTag->getName() != 'entry') {
                 $this->setParam($xmlTag, $feed);
             } else {
@@ -60,6 +61,8 @@ class AtomLoader implements LoaderInterface
             $method = isset(self::$methodMapping[$subElement->getName()]) ?
                     self::$methodMapping[$subElement->getName()] :
                     'setFeed' . ucfirst($subElement->getName());
+            $data = '';
+
 
             if ($subElement->getName() == 'link') {
 
@@ -75,9 +78,12 @@ class AtomLoader implements LoaderInterface
                         $routes[$i][$attrName] = $attrValue;
                     }
                 }
-                $item->setFeedRoutes($routes);
+                $data = $routes;
 
-            } elseif (count($subElement) === 0) {
+            } elseif ($subElement->getName() == 'published') {
+                $data = \DateTime::createFromFormat(\DateTime::ATOM, (string) $subElement);
+
+            } elseif (count($subElement) === 0 && $subElement->getName() != 'updated') {
 
                 if($subElement->getName() == 'content' || $subElement->getName() == 'title' || $subElement->getName() == 'summary') {
                     $typemethod = 'setAtom' . $subElement->getName() . 'Type';
@@ -89,10 +95,14 @@ class AtomLoader implements LoaderInterface
                         $item->setAtomContentLanguage($attributes['xml:lang']);
                     }
                 }
-                $item->$method((string)$subElement);
+                $data = (string) $subElement;
+
             } else {
-                $item->$method($this->extractParam($subElement));
+                $data = $this->extractParam($subElement);
             }
+            $reflection = new \ReflectionClass(get_class($item));
+            if($reflection->hasMethod($method))
+                $item->$method($data);
         }
 
         $feed->add($item);

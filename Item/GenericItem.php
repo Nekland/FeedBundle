@@ -88,6 +88,11 @@ class GenericItem implements ExtendedItemInterface, AtomItemInterface
     protected $contributors;
 
     /**
+     * @var string
+     */
+    protected $contentLanguage;
+
+    /**
      * @param $author
      */
     public function setFeedAuthor($author)

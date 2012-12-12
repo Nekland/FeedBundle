@@ -132,7 +132,7 @@ class FeatureContext extends BehatContext
      */
     public function theFeedIsEmpty()
     {
-        $this->feed = new Feed(array('class' => 'Nekland\\FeedBundle\\Item\\GenericItem'));
+        $this->feed = new Feed(array('class' => 'Nekland\\Bundle\\FeedBundle\\Item\\GenericItem'));
     }
 
     /**

@@ -76,7 +76,7 @@ class RssRenderer implements RendererInterface
         $date = new \DateTime();
         $xml->addTextNode('lastBuildDate', $date->format(\DateTime::RSS), $channel);
 
-        $xml->addTextNode('link', $feed->get('link'), $channel);
+        $xml->addTextNode('link', $feed->get('url'), $channel);
         $xml->addTextNode('title', $feed->get('title'), $channel);
         $xml->addTextNode('language', $feed->get('language'), $channel);
 

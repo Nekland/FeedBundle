@@ -3,6 +3,7 @@ Changelog for FeedBundle 2.x
 Version 2.0.5 (work in progress)
 * Fixed RssRenderer
 
+
 Version 2.0.4
 * Fixed bad namespaces
 * Fixed bugs in loaders

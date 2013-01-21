@@ -1,5 +1,5 @@
 {
-    "version":      "2.0.0",
+    "version":      "2.0.1",
     "name":         "nekland/feed-bundle",
     "type":         "symfony-bundle",
 
@@ -21,6 +21,11 @@
             "homepage": "http://yohan.giarel.li"
         },
         {
+            "name": "ner0tic",
+            "email": "david.durost@gmail.com",
+            "homepage": "http://daviddurost.net"
+        },
+        {
             "name": "Nekland Community",
             "homepage": "https://github.com/Nek-/FeedBundle/contributors"
         }
@@ -31,8 +36,8 @@
     },
 
     "autoload": {
-        "psr-0": { "Nekland\\Bundle\\FeedBundle": "" }
+        "psr-0": { "Nekland\\FeedBundle": "" }
     },
 
-    "target-dir": "Nekland/Bundle/FeedBundle"
+    "target-dir": "Nekland/FeedBundle"
 }

@@ -7,12 +7,12 @@
  * @author Nek' <nek.dev+github@gmail.com>
  */
 
-namespace Nekland\Bundle\FeedBundle\Renderer;
+namespace Nekland\FeedBundle\Renderer;
 
 use Symfony\Component\Routing\Router;
-use Nekland\Bundle\FeedBundle\Feed;
-use Nekland\Bundle\FeedBundle\XML\XMLManager;
-use Nekland\Bundle\FeedBundle\Item\ItemInterface;
+use Nekland\FeedBundle\Feed;
+use Nekland\FeedBundle\XML\XMLManager;
+use Nekland\FeedBundle\Item\ItemInterface;
 
 
 class AtomRenderer implements RendererInterface {
@@ -36,7 +36,7 @@ class AtomRenderer implements RendererInterface {
     /**
      * Renders the feed
      *
-     * @param \Nekland\Bundle\FeedBundle\Feed $feed
+     * @param \Nekland\FeedBundle\Feed $feed
      * @return void
      */
     public function render(Feed $feed) {
@@ -91,8 +91,8 @@ class AtomRenderer implements RendererInterface {
     /**
      * Write Feed Items
      *
-     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager $xml
-     * @param \Nekland\Bundle\FeedBundle\Feed           $feed
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\FeedBundle\Feed           $feed
      * @return void
      */
     private function writeItems(XMLManager $xml, Feed $feed)
@@ -105,8 +105,8 @@ class AtomRenderer implements RendererInterface {
     /**
      * Write an ItemInterface into the feed
      *
-     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager     $xml
-     * @param \Nekland\Bundle\FeedBundle\Item\ItemInterface $item
+     * @param \Nekland\FeedBundle\XML\XMLManager     $xml
+     * @param \Nekland\FeedBundle\Item\ItemInterface $item
      * @return void
      */
     private function writeItem(XMLManager $xml, ItemInterface $item)
@@ -167,7 +167,7 @@ class AtomRenderer implements RendererInterface {
     /**
      * Create an Item node
      *
-     * @param \Nekland\Bundle\FeedBundle\XML\XMLManager $xml
+     * @param \Nekland\FeedBundle\XML\XMLManager $xml
      * @return \DOMElement
      */
     private function createItem(XMLManager $xml)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\Bundle\FeedBundle\XML;
+namespace Nekland\FeedBundle\XML;
 
 class XMLManager
 {

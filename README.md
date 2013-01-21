@@ -32,14 +32,14 @@ Features
 Read about configuration and more on the wiki
 ---------------------------------------------
 
-https://github.com/Nek-/FeedBundle/wiki
+https://github.com/Nekland/FeedBundle/wiki
 
 Configuration
 -------------
 
 ### app/config.yml
 
-```JSON
+```YAML
     nekland_feed:
         feeds:
             my_feed:
@@ -56,7 +56,7 @@ Configuration
                 language:    'fr'
 ```
 Optional (default values):
-```JSON
+```YAML
     nekland_feed:
         feeds:
             ...

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\Bundle\FeedBundle\Loader;
+namespace Nekland\FeedBundle\Loader;
 
 /**
  * This interface represent a From-file loader

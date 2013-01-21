@@ -1,8 +1,8 @@
 <?php
 
-namespace Nekland\Bundle\FeedBundle\Item;
+namespace Nekland\FeedBundle\Item;
 
-use Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface;
+use Nekland\FeedBundle\Item\ExtendedItemInterface;
 
 /**
  * This class represent a generic Feed item (used for feed loading)

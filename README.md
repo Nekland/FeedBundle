@@ -29,7 +29,7 @@ Features
  * extensible
  * On-the-fly and at-save feed generation
 
-Read about configuration and more on the wiki
+Read about configuration and more in the wiki
 ---------------------------------------------
 
 https://github.com/Nekland/FeedBundle/wiki
@@ -69,19 +69,18 @@ Optional (default values):
 ```
 
 Notice that if you want change the path where are saved files, you can redefined this option:
-```JSON
+```YAML
 # Default path
 nekland_feed.feeds.base_path: %kernel.root_dir%/../web/feeds
 ```
 
 ### Models
 
-To use the NeklandFeedBundle, you must have class that implements the ItemInterface. In most of case,
-you can do it with your entities/documents
+To use the NeklandFeedBundle, you must have a class that implements the `ItemInterface`. 
 ```PHP
     class Post implements ItemInterface
     {
-        //.....
+        //...
     }
 ```
 Usage
@@ -129,3 +128,5 @@ Contributors :
 -------------
 
  * Yohan Giarelli <yohan@giarelli.org>
+
+ * Ner0tic <david.durost@gmail.com> ( http://daviddurost.net )

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nekland\Bundle\FeedBundle\Features\Context;
+namespace Nekland\FeedBundle\Features\Context;
 
 use Behat\BehatBundle\Context\BehatContext,
     Behat\BehatBundle\Context\MinkContext;
@@ -10,7 +10,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-use Nekland\Bundle\FeedBundle\Feed;
+use Nekland\FeedBundle\Feed;
 
 
 /**
@@ -21,7 +21,7 @@ use Nekland\Bundle\FeedBundle\Feed;
 class FeatureContext extends BehatContext
 {
     /**
-     * @var \Nekland\Bundle\FeedBundle\Factory\FeedFactory
+     * @var \Nekland\FeedBundle\Factory\FeedFactory
      */
     protected $factory;
 
@@ -41,12 +41,12 @@ class FeatureContext extends BehatContext
     protected $count;
 
     /**
-     * @var \Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface
+     * @var \Nekland\FeedBundle\Item\ExtendedItemInterface
      */
     protected $currentItem;
 
     /**
-     * @var \Nekland\Bundle\FeedBundle\Loader\RssLoader
+     * @var \Nekland\FeedBundle\Loader\RssLoader
      */
     protected $loader;
 
@@ -156,7 +156,7 @@ class FeatureContext extends BehatContext
      */
     public function iAddAnItem($id = 0)
     {
-        $item = new \Nekland\Bundle\FeedBundle\Item\GenericItem();
+        $item = new \Nekland\FeedBundle\Item\GenericItem();
         $item->setFeedId($id);
 
         $this->feed->add($item);
@@ -192,7 +192,7 @@ class FeatureContext extends BehatContext
      */
     public function iReplaceThisItemByAnOther()
     {
-        $item = new \Nekland\Bundle\FeedBundle\Item\GenericItem();
+        $item = new \Nekland\FeedBundle\Item\GenericItem();
         $item->setFeedId(1);
 
         $this->feed->replace(0, $item);
@@ -229,7 +229,7 @@ class FeatureContext extends BehatContext
      */
     public function iLoadTheString()
     {
-        $this->loader = new \Nekland\Bundle\FeedBundle\Loader\RssLoader();
+        $this->loader = new \Nekland\FeedBundle\Loader\RssLoader();
         $this->feed = $this->loader->load($this->xml);
     }
 

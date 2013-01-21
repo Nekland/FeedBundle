@@ -1,13 +1,13 @@
 <?php
 
-namespace Nekland\Bundle\FeedBundle\Factory;
+namespace Nekland\FeedBundle\Factory;
 
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 
-use Nekland\Bundle\FeedBundle\Feed;
-use Nekland\Bundle\FeedBundle\Renderer\RendererInterface;
-use Nekland\Bundle\FeedBundle\Loader\LoaderInterface;
+use Nekland\FeedBundle\Feed;
+use Nekland\FeedBundle\Renderer\RendererInterface;
+use Nekland\FeedBundle\Loader\LoaderInterface;
 
 /**
  * This class represent an agnostic feed, Atom, Rss, etc..

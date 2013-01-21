@@ -1,10 +1,10 @@
 <?php
 
-namespace Nekland\Bundle\FeedBundle;
+namespace Nekland\FeedBundle;
 
 
-use Nekland\Bundle\FeedBundle\Item\ItemInterface;
-use Nekland\Bundle\FeedBundle\Item\GenericItem;
+use Nekland\FeedBundle\Item\ItemInterface;
+use Nekland\FeedBundle\Item\GenericItem;
 
 /**
  * @throws \InvalidArgumentException

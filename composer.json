@@ -4,7 +4,7 @@
 
     "description":  "Feed manager integration for symfony",
     "keywords":     ["symfony", "feed", "xml", "atom"],
-    "homepage":     "https://github.com/Nek-/FeedBundle",
+    "homepage":     "https://github.com/Nekland/FeedBundle",
 
     "license": "MIT",
 

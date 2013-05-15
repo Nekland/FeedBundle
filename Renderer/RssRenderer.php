@@ -2,7 +2,7 @@
 
 namespace Nekland\Bundle\FeedBundle\Renderer;
 
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 use Nekland\Bundle\FeedBundle\XML\XMLManager;
 use Nekland\Bundle\FeedBundle\Feed;
@@ -20,7 +20,7 @@ use Nekland\Bundle\FeedBundle\Item\ExtendedItemInterface;
 class RssRenderer implements RendererInterface
 {
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
 
@@ -29,7 +29,7 @@ class RssRenderer implements RendererInterface
      */
     protected $basePath;
 
-    public function __construct(Router $router, $basePath)
+    public function __construct(RouterInterface $router, $basePath)
     {
         $this->router = $router;
         $this->basePath = $basePath;

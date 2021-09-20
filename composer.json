@@ -33,5 +33,6 @@
         "psr-0": { "Nekland\\Bundle\\FeedBundle": "" }
     },
 
-    "target-dir": "Nekland/Bundle/FeedBundle"
+    "target-dir": "Nekland/Bundle/FeedBundle",
+    "abandoned": true
 }
